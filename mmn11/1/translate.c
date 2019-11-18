@@ -1,48 +1,62 @@
 #include <stdio.h>
 #include <string.h>
 
-#define arr_size sizeof(unsigned int)
+#define arr_size sizeof(unsigned int) * 8
 
 /* function prototypes */
 void hex_dec_translate(char str[]);
-int array_to_decimal(char str[]);
-void print_base10_to_base2(int base10_number); 
+unsigned int array_to_decimal(char str[]);
+void print_base10_to_base2(unsigned int base10_number); 
 
 int main()
 {
 	char str[arr_size];
+
 	printf("Please insert a base 10 number to be converted into base 2:\n");
 	scanf("%s", str);
+
 	hex_dec_translate(str);
+
 	return 0;
 }
 
+/* prints to stdout the translation of a given array of numerical characters to binary representation */
 void hex_dec_translate(char str[])
 {
-	int base10_number;
+	unsigned int base10_number;
+
 	base10_number = array_to_decimal(str);
-	printf("%d\n", base10_number);
 	print_base10_to_base2(base10_number);
 }
 
-int array_to_decimal(char str[])
+/* return the decimal value of a given array of numerical character - positive only */
+unsigned int array_to_decimal(char str[])
 {
-	int i, to_be_returned = 0, array_length = 0, factor = 1;
+	unsigned int to_be_returned = 0, array_length = 0, factor = 1;
+	int i;
+
 	array_length = strlen(str) -1; 
-	printf("DEBUG - arr_size=%ld\n", arr_size);
-	printf("DEBUG - String Length is %d\n", array_length+1);
 	for (i = array_length ; i >= 0 ; i -= 1)
 	{
-		printf("DEBUG - to_be_returned = %d\n", to_be_returned);
 		to_be_returned += (str[i]-'0') * factor;
-		printf("DEBUG - to_be_returned = %d, (int)(str[i]) = %c, factor = %d ,  (str[i]-'0')= %d\n", to_be_returned, (int)(str[i]), factor ,  (str[i]-'0'));
 		factor = factor * 10;
 	}
+
 	return to_be_returned;
 }
 
-void print_base10_to_base2(int base10_number)
+/* print to stdout the binary representation of a base 10 number */
+void print_base10_to_base2(unsigned int base10_number)
 {
-	return;
+	unsigned int bit, count = 0;
+
+	printf("The binary value of %u is : \n", base10_number); 
+	for (bit = 1u << ((sizeof(unsigned int) * 8) - 1) ; bit != 0 ; bit = bit >> 1)
+	{
+		putchar((base10_number & bit) ? '1' : '0');
+		count += 1;
+		if (count % 8 == 0)
+			putchar(' ');
+	}
+	putchar('\n');
 }
- 
