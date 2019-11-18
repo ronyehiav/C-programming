@@ -22,8 +22,8 @@ int main()
 	fgets(str, sizeof(str), stdin);
 
 	/* removing the enter character */
-	if(str[strlen(str)-1]=='\n')
-		str[strlen(str)-1]='\0';
+	if(str[strlen(str) - 1] == '\n')
+		str[strlen(str) - 1] = '\0';
 
 	printf("\nThe inserted string is:\n%s\n", str);
 
@@ -32,15 +32,16 @@ int main()
 	return 0;
 }
 
+/* print all the possible character suffix of the given string */
 int suffix(char str[], char c)
 {	
 	int i, str_length = strlen(str), to_be_returned = 0;
-	for (i=0 ; i < str_length ; i++)
+	for (i = 0 ; i < str_length ; i++)
 	{
 		if (str[i] == c)
 		{
 			/* print partial string - from the character found */
-			printf("%s\n", str+i);
+			printf("%s\n", str + i);
 			to_be_returned += 1;
 		}
 	}
