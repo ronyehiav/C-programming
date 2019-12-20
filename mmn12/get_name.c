@@ -6,7 +6,7 @@
 #define MAX_NAME_LENGTH 20
 #define MAX_NAME_LIST 30 
 #define NUMBER_OF_NAMES_TO_PRINT 10
-#define DUPLICATED_NAME -999
+#define DUPLICATED_NAME -999 /* return code for duplicated name */
 
 /* global variables */
 char name_list[MAX_NAME_LIST +1][MAX_NAME_LENGTH +1]; /* +1 for the zero */
@@ -56,7 +56,7 @@ void store_names(int number_of_name)
 
 /* verify if the array of character name[] is already stored in name_list.
 the last_index_used allows to check for duplicate only on the already stored values.
-the returned value is negative if the inserted value is duplicated. */
+the returned value is DUPLICATED_NAME if the inserted value is duplicated. */
 int is_name_duplicated(char name[], int last_index_used)
 {
 	char tmp_lowered_name_from_list[MAX_NAME_LENGTH +1], tmp_lowered_name_from_input[MAX_NAME_LENGTH +1]; /* +1 for the zero */
