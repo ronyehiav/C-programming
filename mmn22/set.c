@@ -37,6 +37,9 @@ void stop()
 
 void help()
 {
-	printf("%s", cmds[0].command_name);
-	printf("symetric_difference_set");
+	int i;
+
+	printf("%sHelp%s\n", BAR, BAR);
+	for ( i = 0 ; cmds[i].command_function != NULL ; i++ )
+		printf("Command: %s\nDescription: %s\nUsage: %s\n\n", cmds[i].command_name, cmds[i].description, cmds[i].usage);
 }
