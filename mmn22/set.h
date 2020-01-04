@@ -1,3 +1,6 @@
+#ifndef SET_H
+#define SET_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,7 +18,7 @@
 
 /* set struct declaration */ 
 typedef struct {
-	char *set_name;
+	char set_name[SET_NAME_LENGTH];
 	char set_values[SET_SIZE_MAX / sizeof(char)];
 	} set;
 
@@ -41,8 +44,9 @@ void initialize_commands();
 
 /* command cmds[NUMBER_OF_COMMANDS]; * commands declaration */
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */
+command cmds[NUMBER_OF_COMMANDS];
 
-command cmds[NUMBER_OF_COMMANDS] = {
+/*command cmds[NUMBER_OF_COMMANDS] = {
 		{"read_set", read_numbers_to_set_name, "Initialize and insert numbers to the given set.", "read_set <set_name>"},
 		{"print_set", print_set, "Print the given set's content", "print_set <set_name>"},
 		{"union_set", union_set, "Store into set_name_3 the result of union operation between set_name_1 and set_name_2", "union_set <set_name_1>, <set_name_2>, <set_name_3>"},
@@ -52,4 +56,6 @@ command cmds[NUMBER_OF_COMMANDS] = {
 		{"stop", stop, "Stop the set calculator", "stop"},
 		{"help", help, "Print the help documentation", "help"},
 		{"not_valid", NULL, NULL, NULL}
-	};
+	};*/
+
+#endif /* SET_H */

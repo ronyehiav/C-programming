@@ -8,7 +8,7 @@ void initialize_sets()
 	for ( i = 'A' ; i <= 'A' + NUMBER_OF_SETS && i <= 'A' + MAX_NUMBER_OF_SETS ; i++)
 	{
 		/* configure the set name with format: SET<capital_letter> */
-		sets[i-'A'].set_name = "%s%c" , SET_NAME_PREFIX, (char)i; 
+		sprintf(sets[i - 'A'].set_name, SET_NAME_PREFIX "%c" , (char)i);
 
 		for ( j = 0 ; j <= SET_SIZE_MAX / sizeof(char) ; j++ )
 			/* configure the set as empty */

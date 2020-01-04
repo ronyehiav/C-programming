@@ -1,6 +1,5 @@
 #include "set.h"
 
-;
 void read_numbers_to_set_name()
 {
 	printf("read_numbers_to_set_name");
@@ -38,5 +37,6 @@ void stop()
 
 void help()
 {
+	printf("%s", cmds[0].command_name);
 	printf("symetric_difference_set");
 }
