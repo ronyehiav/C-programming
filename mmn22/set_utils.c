@@ -2,7 +2,7 @@
 
 /* cmds initialization */
 command cmds[NUMBER_OF_COMMANDS] = {
-                {"read_set", read_numbers_to_set_name, "Initialize and insert numbers to the given set.", "read_set <set_name>"},
+                {"read_set", read_numbers_to_set_name, "Initialize and insert numbers to the given set.", "read_set <set_name> <num1>,...,<numN> -1"},
                 {"print_set", print_set, "Print the given set's content", "print_set <set_name>"},
                 {"union_set", union_set, "Store into set_name_3 the result of union operation between set_name_1 and set_name_2", "union_set <set_name_1>, <set_name_2>, <set_name_3>"},
                 {"intersect_set", intersection_set, "Store into set_name_3 the result of intersection operation between set_name_1 and set_name_2", "intersect_set <set_name_1>, <set_name_2>, <set_name_3>"},
@@ -29,3 +29,19 @@ void initialize_sets()
 	}
 }
 
+/* return 0 if the string contain something else than digit or white space or coma */
+int str_is_numeric(char * str)
+{
+	int i;
+	
+	puts(str);
+	for ( i = 0 ; str[i] != NULL ; i++)
+	{
+		putchar(str[i]);
+		if (str[i] == '-' && str[i+1] != '1')
+				return 0;
+		if ( !isdigit(str[i]) && !isspace(str[i]) && str[i] != ',') 
+			return 0;
+	}
+	return 1;
+}
