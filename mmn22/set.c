@@ -24,14 +24,10 @@ void read_numbers_to_set_name()
 			{
 				if (validate_list_of_elements(cmd_from_stdin) >= 0)
 				{
-					printf("start inserting\n");
-/*				if (!strstr(cmd_from_stdin, "-1"))
-					printf("ERROR - List of set members is not terminated correctly\n");
-				else if (str_is_numeric(cmd_from_stdin) != 1)
-					printf("ERROR - Invalid set member: not an integer\n");
-				else
-				{
-					token = strtok(cmd_from_stdin, ","); 
+					printf("!!!!!!!!!!! start inserting\n");
+					/*backup_set_value = sets[i].set_values	*/
+
+					/*token = strtok(cmd_from_stdin, ","); 
 					while (token != NULL) 
 					{ 
 					        printf("%d\n", to_be_inserted); 

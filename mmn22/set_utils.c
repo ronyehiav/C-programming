@@ -29,23 +29,6 @@ void initialize_sets()
 	}
 }
 
-/* return 0 if the string contain something else than digit or white space or coma */
-int str_is_numeric(char * str)
-{
-	int i;
-	
-	puts(str);
-	for ( i = 0 ; str[i] != '\0' ; i++)
-	{
-		putchar(str[i]);
-		if (str[i] == '-' && str[i+1] != '1')
-				return 0;
-		if ( !isdigit(str[i]) && !isspace(str[i]) && str[i] != ',') 
-			return 0;
-	}
-	return 1;
-}
-
 /* return a negative value if the string:
 	- dont ends by -1
 	- contains  anything else except int, blank spaces & ','
@@ -54,14 +37,11 @@ int validate_list_of_elements(char * str)
 {
 	int i, comma_found = 0;
 
-	printf("in validate_list_of_elements: str=\'%s\'\n", str);
 	/* removing blanck space from str */
 	remove_spaces(str);
-	printf("in validate_list_of_elements after blank space elimination: str=\'%s\'\n", str);
 
 	for ( i = 0 ; str[i] != '\0' ; i++)
 	{
-		printf("in validate_list_of_elements in for: str[%d]=\'%c\'\n",i , str[i]);
 		/* checking if '-1 is the last 2 chars of the string */
 		if (str[i] == '-' && str[i+1] != '\0' && str[i+1] == '1' && str[i+2] == '\0') /* win case */
 			return 0;
@@ -114,4 +94,5 @@ void remove_spaces (char *  str_trimmed)
 		str_untrimmed++;
 	}
 	*str_trimmed = '\0';
+	free(str_untrimmed);
 }
