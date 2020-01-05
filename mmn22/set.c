@@ -3,7 +3,7 @@
 void read_numbers_to_set_name()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
-	char* token;
+	char * backup_set_value, * chunk_of_cmd_from_stdin = NULL;
 	int i, to_be_inserted;
 
 	if (scanf("%s", cmd_from_stdin) == 1)
@@ -22,18 +22,45 @@ void read_numbers_to_set_name()
 		{
 			if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 			{
+				/* validating input */ 
 				if (validate_list_of_elements(cmd_from_stdin) >= 0)
 				{
-					printf("!!!!!!!!!!! start inserting\n");
-					/*backup_set_value = sets[i].set_values	*/
+					/* allocate for backing up the set value, in case an out of range number is found */ 
+					backup_set_value = malloc(strlen(sets[i].set_values) +1);
 
-					/*token = strtok(cmd_from_stdin, ","); 
-					while (token != NULL) 
-					{ 
-					        printf("%d\n", to_be_inserted); 
-					        token = strtok(NULL, ","); 
+					if (!backup_set_value)
+						printf("ERROR - Failed to allocate more memory\n");
+					else
+					{
+						/* back up the set value */
+						strcpy(backup_set_value, sets[i].set_values);
+						
+						/* splitting the command to multiple chunks, when the delimitter is ',' */
+						* chunk_of_cmd_from_stdin = * strtok(cmd_from_stdin, ",");
+						
+						while (chunk_of_cmd_from_stdin != NULL)
+						{
+							/* translate string to int */
+							to_be_inserted = atoi(chunk_of_cmd_from_stdin);
+
+							/* validating string is in the range */ 
+							if (to_be_inserted > MAX_ELEMENT_VALUE || to_be_inserted < MIN_ELEMENT_VALUE) 
+							{
+								printf("ERROR - Invalid set member - value out of range\n");
+								
+								/* reset the set value as before */
+								strcpy(sets[i].set_values, backup_set_value);
+								break;
+							}
+							else /* adding numbers to set */
+							{
+								printf("%d\n",to_be_inserted);
+								if (to_be_inserted != -1)
+									printf("ADDD NUMBERRRRR\n");
+							}
+						}
+						free(backup_set_value);
 					}
-	*/
 				}
 			}
 			else

@@ -13,6 +13,8 @@
 #define COMMAND_PROMPT "(set_calculator) >>> "
 #define NUMBER_OF_COMMANDS 9
 #define BASE10 10
+#define MAX_ELEMENT_VALUE 127
+#define MIN_ELEMENT_VALUE 0
 
 
 
