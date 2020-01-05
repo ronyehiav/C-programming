@@ -8,7 +8,7 @@ void read_numbers_to_set_name()
 
 	if (scanf("%s", cmd_from_stdin) == 1)
 	{
-		/* looking for the requested set */
+		/* looking for the index of the requested set */
 		for ( i = 0 ; i< NUMBER_OF_SETS ;  i++ )
 		{
 			if (strcmp(cmd_from_stdin, sets[i].set_name) == 0)
@@ -18,26 +18,31 @@ void read_numbers_to_set_name()
 		/* set name not found */
 		if ( i == NUMBER_OF_SETS )
 			printf("ERROR - Undefined set name: %s\n", cmd_from_stdin);
-
-		if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
+		else /* set name found */
 		{
-			if (!strstr(cmd_from_stdin, "-1"))
-				printf("ERROR - List of set members is not terminated correctly\n");
-			else if (str_is_numeric(cmd_from_stdin) != 1)
-				printf("ERROR - Invalid set member: not an integer\n");
-			else
+			if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 			{
-/*				token = strtok(cmd_from_stdin, ","); 
-				while (token != NULL) 
-				{ 
-				        printf("%d\n", to_be_inserted); 
-				        token = strtok(NULL, ","); 
+				if (validate_list_of_elements(cmd_from_stdin) >= 0)
+				{
+					printf("start inserting\n");
+/*				if (!strstr(cmd_from_stdin, "-1"))
+					printf("ERROR - List of set members is not terminated correctly\n");
+				else if (str_is_numeric(cmd_from_stdin) != 1)
+					printf("ERROR - Invalid set member: not an integer\n");
+				else
+				{
+					token = strtok(cmd_from_stdin, ","); 
+					while (token != NULL) 
+					{ 
+					        printf("%d\n", to_be_inserted); 
+					        token = strtok(NULL, ","); 
+					}
+	*/
 				}
-*/			printf("START INSERTING NUM");
 			}
+			else
+				printf("ERROR - Can't read from stdin\n"); 
 		}
-		else
-			printf("ERROR - Can't read from stdin\n"); 
 	}
 	else
 		printf("ERROR - Can't read from stdin\n");

@@ -35,7 +35,7 @@ int str_is_numeric(char * str)
 	int i;
 	
 	puts(str);
-	for ( i = 0 ; str[i] != NULL ; i++)
+	for ( i = 0 ; str[i] != '\0' ; i++)
 	{
 		putchar(str[i]);
 		if (str[i] == '-' && str[i+1] != '1')
@@ -44,4 +44,67 @@ int str_is_numeric(char * str)
 			return 0;
 	}
 	return 1;
+}
+
+/* return a negative value if the string:
+	- dont ends by -1
+	- contains  anything else except int, blank spaces & ','
+   additionally this function eliminates all the blank spaces */
+int validate_list_of_elements(char * str)
+{
+	int i, comma_found = 0;
+
+	printf("in validate_list_of_elements: str=\'%s\'\n", str);
+	/* removing blanck space from str */
+	remove_spaces(str);
+	printf("in validate_list_of_elements after blank space elimination: str=\'%s\'\n", str);
+
+	for ( i = 0 ; str[i] != '\0' ; i++)
+	{
+		printf("in validate_list_of_elements in for: str[%d]=\'%c\'\n",i , str[i]);
+		/* checking if '-1 is the last 2 chars of the string */
+		if (str[i] == '-' && str[i+1] != '\0' && str[i+1] == '1' && str[i+2] == '\0') /* win case */
+			return 0;
+
+		/* checking if contains other than int or ',' */
+		if (!(isdigit(str[i]) || str[i] == ','))
+		{
+			printf("ERROR - Invalid set member: not an integer\n");
+			return -2;
+		}
+
+		/* checking multiple consecutive comma */
+		if (comma_found != 0 && str[i] == ',')
+		{
+				printf("ERROR - Multiple consecutive commas\n");
+				return -3;
+		}
+		if (str[i] == ',')
+			comma_found = 1;
+		else
+			comma_found = 0;
+	}
+	
+	/* if the progrmm arrive here, it means that no -1 was found by the end of the line */
+	printf("ERROR - List of set members is not terminated correctly\n");	
+	return -1;
+}
+
+/* remove spaces from the given string */
+void remove_spaces (char *  str_trimmed)
+{
+	/* declare initialize and copy str_trimmed into str_untrimmed */
+	char * str_untrimmed = malloc(strlen(str_trimmed) + 1);
+	strcpy(str_untrimmed, str_trimmed); 
+
+	while (*str_untrimmed != '\0')
+	{
+		if(!isspace(*str_untrimmed))
+		{
+			*str_trimmed = *str_untrimmed;
+			str_trimmed++;
+		}
+		str_untrimmed++;
+	}
+	*str_trimmed = '\0';
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define SET_SIZE_MAX 128
 #define NUMBER_OF_SETS 6
@@ -39,6 +40,9 @@ void symetric_difference_set();
 void stop();
 void help();
 void initialize_sets();
+int str_is_numeric(char *);
+int validate_list_of_elements(char *);
+void remove_spaces (char *);
 
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */
 command cmds[NUMBER_OF_COMMANDS]; /* cmds declaration */ 
