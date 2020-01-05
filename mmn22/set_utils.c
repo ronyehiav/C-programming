@@ -76,9 +76,16 @@ int validate_list_of_elements(char * str)
 		/* checking multiple consecutive comma */
 		if (comma_found != 0 && str[i] == ',')
 		{
-				printf("ERROR - Multiple consecutive commas\n");
-				return -3;
+			printf("ERROR - Multiple consecutive commas\n");
+			return -3;
 		}
+		/* checking not starting by a comma */
+		if (str[i] == ',' && i == 0)
+		{
+			printf("ERROR - Illegal comma\n");
+			return -4;
+		}
+			 
 		if (str[i] == ',')
 			comma_found = 1;
 		else
