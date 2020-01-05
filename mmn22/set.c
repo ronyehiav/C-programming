@@ -36,7 +36,7 @@ void read_numbers_to_set_name()
 						strcpy(backup_set_value, sets[i].set_values);
 						
 						/* splitting the command to multiple chunks, when the delimitter is ',' */
-						* chunk_of_cmd_from_stdin = * strtok(cmd_from_stdin, ",");
+						chunk_of_cmd_from_stdin = strtok(cmd_from_stdin, ",");
 						
 						while (chunk_of_cmd_from_stdin != NULL)
 						{
@@ -58,6 +58,8 @@ void read_numbers_to_set_name()
 								if (to_be_inserted != -1)
 									printf("ADDD NUMBERRRRR\n");
 							}
+
+							chunk_of_cmd_from_stdin = strtok(NULL, ",");
 						}
 						free(backup_set_value);
 					}

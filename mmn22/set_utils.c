@@ -81,7 +81,8 @@ int validate_list_of_elements(char * str)
 void remove_spaces (char *  str_trimmed)
 {
 	/* declare initialize and copy str_trimmed into str_untrimmed */
-	char * str_untrimmed = malloc(strlen(str_trimmed) + 1);
+	char * str_untrimmed = (char *) malloc(strlen(str_trimmed) + 1);
+	char * str_head_pointer = str_untrimmed;
 	strcpy(str_untrimmed, str_trimmed); 
 
 	while (*str_untrimmed != '\0')
@@ -94,5 +95,6 @@ void remove_spaces (char *  str_trimmed)
 		str_untrimmed++;
 	}
 	*str_trimmed = '\0';
-	free(str_untrimmed);
+	str_untrimmed = str_head_pointer;
+	free(&*str_untrimmed);
 }
