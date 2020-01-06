@@ -46,6 +46,10 @@ int str_is_numeric(char *);
 int validate_list_of_elements(char *);
 void remove_spaces(char *);
 int get_set_index(char *);
+void add_int_to_set(int, int);
+void add_mask_to_set(char, char);
+char create_mask(int);
+
 
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */
 command cmds[NUMBER_OF_COMMANDS]; /* cmds declaration */ 

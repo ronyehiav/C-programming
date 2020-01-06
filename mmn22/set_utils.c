@@ -117,3 +117,33 @@ int get_set_index(char * str)
 	}
 	return i;
 }
+
+/* add an int element to sets[i] - take into consideration that sets[i] exists */
+void add_int_to_set(int element, int i)
+{
+	int char_index, bit_index;
+	char char_mask;
+
+	char_index = element / sizeof(char); /* index of sets[i].set_values */
+	bit_index = element % sizeof(char); /* index of the bit to be turned on */
+
+	char_mask = create_mask(bit_index);
+	
+	add_mask_to_set(sets[i].set_values[char_index], char_mask);
+}
+
+/* create a bit mask with bit_index turned on */
+char create_mask(int bit_index)
+{
+	char c;
+
+	c = 1 << (sizeof(c) - (bit_index -1));
+
+	return c;
+}
+
+/* add the source mask bits turned on to target char mask */
+void add_mask_to_set(char target, char source)
+{
+	target |= source;
+}
