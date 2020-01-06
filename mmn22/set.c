@@ -1,5 +1,6 @@
 #include "set.h"
 
+/* read list of numbers stdin and store them accordingly in the requested set */
 void read_numbers_to_set_name()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
