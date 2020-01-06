@@ -44,7 +44,8 @@ void help();
 void initialize_sets();
 int str_is_numeric(char *);
 int validate_list_of_elements(char *);
-void remove_spaces (char *);
+void remove_spaces(char *);
+int get_set_index(char *);
 
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */
 command cmds[NUMBER_OF_COMMANDS]; /* cmds declaration */ 

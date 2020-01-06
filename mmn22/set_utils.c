@@ -32,13 +32,10 @@ void initialize_sets()
 /* return a negative value if the string:
 	- dont ends by -1
 	- contains  anything else except int, blank spaces & ','
-   additionally this function eliminates all the blank spaces */
+	this function MUST be called after remove_spaces function was used on str */
 int validate_list_of_elements(char * str)
 {
 	int i, comma_found = 0;
-
-	/* removing blanck space from str */
-	remove_spaces(str);
 
 	for ( i = 0 ; str[i] != '\0' ; i++)
 	{
@@ -78,7 +75,7 @@ int validate_list_of_elements(char * str)
 }
 
 /* remove spaces from the given string */
-void remove_spaces (char *  str_trimmed)
+void remove_spaces(char *  str_trimmed)
 {
 	/* declare initialize and copy str_trimmed into str_untrimmed */
 	char * str_untrimmed = (char *) malloc(strlen(str_trimmed) + 1);
@@ -97,4 +94,26 @@ void remove_spaces (char *  str_trimmed)
 	*str_trimmed = '\0';
 	str_untrimmed = str_head_pointer;
 	free(&*str_untrimmed);
+}
+
+
+/* find and return the index of matched set with str - return -1 if not found */
+int get_set_index(char * str)
+{	
+	int i;
+
+	/* looking for the index of the requested set */
+	for ( i = 0 ; i< NUMBER_OF_SETS ;  i++ )
+	{
+		if (strcmp(str, sets[i].set_name) == 0)
+			break;
+	}
+
+	/* set name not found */
+	if ( i == NUMBER_OF_SETS )
+	{
+		printf("ERROR - Undefined set name: %s\n", str);
+		i = -1;
+	}
+	return i;
 }
