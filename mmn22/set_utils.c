@@ -23,7 +23,7 @@ void initialize_sets()
 		/* configure the set name with format: SET<capital_letter> */
 		sprintf(sets[i - 'A'].set_name, SET_NAME_PREFIX "%c" , (char)i);
 
-		for ( j = 0 ; j <= SET_SIZE_MAX / sizeof(char) ; j++ )
+		for ( j = 0 ; j < SET_SIZE_MAX / sizeof(char) ; j++ )
 			/* configure the set as empty */
 			sets[i-'A'].set_values[j] = 0;
 	}
@@ -129,7 +129,7 @@ void add_int_to_set(int element, int i)
 
 	char_mask = create_mask(bit_index);
 	
-	add_mask_to_set(sets[i].set_values[char_index], char_mask);
+	add_mask_to_set(&sets[i].set_values[char_index], char_mask);
 }
 
 /* create a bit mask with bit_index turned on */
@@ -143,7 +143,7 @@ char create_mask(int bit_index)
 }
 
 /* add the source mask bits turned on to target char mask */
-void add_mask_to_set(char target, char source)
+void add_mask_to_set(char * target, char source)
 {
-	target |= source;
+	*target |= source;
 }

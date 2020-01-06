@@ -1,9 +1,9 @@
 CC=gcc
-CFLAGS=-Wall -ansi -pedantic
+CFLAGS=-Wall -ansi -pedantic -g 
 
 
 myset: myset.c set.o set_utils.o set.h
-	$(CC) -g  $(CFLAGS) set.o set_utils.o myset.c -o myset
+	$(CC) $(CFLAGS) set.o set_utils.o myset.c -o myset
 
 set.o: set.c set.h
 	$(CC) -c $(CFLAGS) set.c -o set.o

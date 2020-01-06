@@ -47,7 +47,7 @@ int validate_list_of_elements(char *);
 void remove_spaces(char *);
 int get_set_index(char *);
 void add_int_to_set(int, int);
-void add_mask_to_set(char, char);
+void add_mask_to_set(char *, char);
 char create_mask(int);
 
 
