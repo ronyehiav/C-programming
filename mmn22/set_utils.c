@@ -148,3 +148,116 @@ void add_mask_to_set(char * target, char source)
 {
 	*target |= source;
 }
+
+/* store the result of a operation b into destination */
+void do_operation_on_set(int operation)
+{
+	char cmd_from_stdin[MAX_COMMAND_LENGTH];
+	char * a = NULL, * b = NULL, * destination = NULL;
+	int a_index, b_index, destination_index, i;
+
+	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
+	{
+		/* removing blank space from cmd_from_stdin */
+		remove_spaces(cmd_from_stdin);
+
+		/* validate input from stdin */
+		if (validate_operation_command(cmd_from_stdin) < 0)
+			return;
+
+		/* allocate and copy sets name */
+		a = malloc(SET_NAME_LENGTH +1);
+		b = malloc(SET_NAME_LENGTH +1);
+		destination = malloc(SET_NAME_LENGTH +1);
+
+		/* insert sets name into copy of sets */
+		for (i = 0; i < SET_NAME_LENGTH; i++)
+		{
+			a[i] = cmd_from_stdin[i];
+			b[i] = cmd_from_stdin[i + SET_NAME_LENGTH + 1]; 
+			destination[i] = cmd_from_stdin[i + (2 * SET_NAME_LENGTH) + 2];
+		}
+
+		/* validating set names are defined - can reuse the <a/b/c>_index variable */
+		if (((a_index = get_set_index(a)) < 0 ) || 
+			((b_index = get_set_index(b)) < 0 ) || 
+			((destination_index = get_set_index(destination)) < 0 ))
+		{
+			free(a);
+			free(b);
+			free(destination);
+			return;
+		}
+		
+		free(a);
+		free(b);
+		free(destination);
+
+		/* keeping into destination the result of a operation b */
+		for (i = 0; i < (sizeof(char) * 8) ; i++)
+		{
+			if (operation == UNION)
+				destination[i] = a[i] | b[i];
+
+			if (operation == INTERSECTION)
+				destination[i] = a[i] & b[i];
+
+			if (operation == SUBSTRACT)
+				destination[i] = a[i] & ~b[i];
+
+			if (operation == SYMETRICAL_DIFFERENCE)
+				destination[i] = a[i] ^ b[i];
+		}
+	}
+        else
+                printf("ERROR - Can't read from stdin\n");
+}
+
+/* validate the the given string looks like 
+<SET_NAME_LENGTH * upper>,<SET_NAME_LENGTH * upper>,<SET_NAME_LENGTH * upper> */
+int validate_operation_command(char * str)
+{
+	int i, error_counter = 0;
+
+	for ( i = 0 ; str[i] == '\0' || error_counter > 0 ; i++)
+	{
+		/* checking character places (not content) */ 
+		if ((i >= 0 && i <= (SET_NAME_LENGTH - 1)) ||
+			(i >= (SET_NAME_LENGTH + 1) && i <= (2 * SET_NAME_LENGTH)) ||
+			(i >= (SET_NAME_LENGTH + 2) && i <= ((3 * SET_NAME_LENGTH) + 1))) 
+		{
+			error_counter++;
+			if (str[i] == ',' && i > 0 && str[i] == ',') 
+				printf("ERROR - Multiple consecutive commas");
+
+			else if (isupper(str[i] == 0))
+				printf("ERROR - Undefined set name");
+			
+			else 
+				error_counter--;
+		}
+		else /* comma places */
+		{
+			if (str[i] != ',')
+			{
+				error_counter++;
+
+				if (isalpha(str[i]))
+					printf("ERROR - Undefined set name");
+
+				else
+					printf("ERROR - Unrecognized character");
+			}
+		}
+	}
+
+	if (strlen(str) < ((3 * SET_NAME_LENGTH) + 2))
+	{
+		printf("ERROR - Missing parameter");
+		error_counter++;
+	}
+
+	if (error_counter > 0)
+		return -1;
+	return 0;
+}

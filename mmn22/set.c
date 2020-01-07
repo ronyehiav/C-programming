@@ -87,6 +87,7 @@ void read_numbers_to_set_name()
 		printf("ERROR - Can't read from stdin\n"); 
 }
 
+/* print the set elements in croissant order */
 void print_set()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
@@ -178,24 +179,28 @@ void print_set_bin()
                 printf("ERROR - Can't read from stdin\n");
 }
 
+/* union between the first and second set - stored in third set */
 void union_set()
 {
-	printf("union_set");
+	do_operation_on_set(UNION);
 }
 
+/* intersection  between the first and second set - stored in third set */
 void intersection_set()
 {
-	printf("intersection_set");
+	do_operation_on_set(INTERSECTION);
 }
 
+/* substract the second set from the first set - stored in third set */
 void substract_from_set()
 {
-	printf("substract_from_set");
+	do_operation_on_set(SUBSTRACT);
 }
 
+/* symetrical difference between the first and second set - stored in third set */
 void symetric_difference_set()
 {
-	printf("symetric_difference_set");
+	do_operation_on_set(SYMETRICAL_DIFFERENCE);
 }
 
 /* stop the program */
@@ -214,3 +219,4 @@ void help()
 	for ( i = 0 ; cmds[i].command_function != NULL ; i++ )
 		printf("Command: %s\nDescription: %s\nUsage: %s\n\n", cmds[i].command_name, cmds[i].description, cmds[i].usage);
 }
+

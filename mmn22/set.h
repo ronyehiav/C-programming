@@ -17,6 +17,11 @@
 #define MAX_ELEMENT_VALUE 127
 #define MIN_ELEMENT_VALUE 0
 
+#define UNION 1
+#define INTERSECTION 2
+#define SUBSTRACT 3
+#define SYMETRICAL_DIFFERENCE 4
+
 
 
 /* set struct declaration */ 
@@ -51,6 +56,8 @@ int get_set_index(char *);
 void add_int_to_set(int, int);
 void add_mask_to_set(char *, char);
 char create_mask(int);
+void do_operation_on_set(int);
+int validate_operation_command(char *);
 
 
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */
