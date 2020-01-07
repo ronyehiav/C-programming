@@ -136,10 +136,10 @@ void add_int_to_set(int element, int i)
 /* create a bit mask with bit_index turned on */
 char create_mask(int bit_index)
 {
-	char c = 0b01000000 ;
-/*
-	c = 1 << ((sizeof(c) * 8) - bit_index);
-*/
+	char c ;
+
+	c = 1 << ((sizeof(c) * 8) - bit_index -1);
+
 	return c;
 }
 

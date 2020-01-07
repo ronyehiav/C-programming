@@ -21,8 +21,8 @@
 
 /* set struct declaration */ 
 typedef struct {
-	char set_name[SET_NAME_LENGTH];
-	char set_values[SET_SIZE_MAX / sizeof(char) * 8];
+	char set_name[SET_NAME_LENGTH +1];
+	char set_values[SET_SIZE_MAX / (sizeof(char) * 8)];
 	} set;
 
 /* commands struct declaration */
