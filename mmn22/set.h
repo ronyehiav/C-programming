@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 #define SET_SIZE_MAX 128
 #define NUMBER_OF_SETS 6
@@ -11,7 +12,7 @@
 #define MAX_COMMAND_LENGTH 120
 #define BAR " =============== "
 #define COMMAND_PROMPT "(set_calculator) >>> "
-#define NUMBER_OF_COMMANDS 9
+#define NUMBER_OF_COMMANDS 10
 #define BASE10 10
 #define MAX_ELEMENT_VALUE 127
 #define MIN_ELEMENT_VALUE 0
@@ -21,7 +22,7 @@
 /* set struct declaration */ 
 typedef struct {
 	char set_name[SET_NAME_LENGTH];
-	char set_values[SET_SIZE_MAX / sizeof(char)];
+	char set_values[SET_SIZE_MAX / sizeof(char) * 8];
 	} set;
 
 /* commands struct declaration */
@@ -35,6 +36,7 @@ typedef struct {
 /* functions prototype */
 void read_numbers_to_set_name();
 void print_set();
+void print_set_bin();
 void union_set();
 void intersection_set();
 void substract_from_set();

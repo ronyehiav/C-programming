@@ -4,6 +4,7 @@
 command cmds[NUMBER_OF_COMMANDS] = {
                 {"read_set", read_numbers_to_set_name, "Initialize and insert numbers to the given set.", "read_set <set_name> <num1>,...,<numN> -1"},
                 {"print_set", print_set, "Print the given set's content", "print_set <set_name>"},
+                {"print_set_bin", print_set_bin, "Print the binary mask representation of the given set", "print_set_bin <set_name>"},
                 {"union_set", union_set, "Store into set_name_3 the result of union operation between set_name_1 and set_name_2", "union_set <set_name_1>, <set_name_2>, <set_name_3>"},
                 {"intersect_set", intersection_set, "Store into set_name_3 the result of intersection operation between set_name_1 and set_name_2", "intersect_set <set_name_1>, <set_name_2>, <set_name_3>"},
                 {"sub_set", substract_from_set, "Store into set_name_3 the result of substracting set_name_2 from set_name_1 ", "sub_set <set_name_1>, <set_name_2>, <set_name_3>"},
@@ -23,7 +24,7 @@ void initialize_sets()
 		/* configure the set name with format: SET<capital_letter> */
 		sprintf(sets[i - 'A'].set_name, SET_NAME_PREFIX "%c" , (char)i);
 
-		for ( j = 0 ; j < SET_SIZE_MAX / sizeof(char) ; j++ )
+		for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
 			/* configure the set as empty */
 			sets[i-'A'].set_values[j] = 0;
 	}
@@ -124,8 +125,8 @@ void add_int_to_set(int element, int i)
 	int char_index, bit_index;
 	char char_mask;
 
-	char_index = element / sizeof(char); /* index of sets[i].set_values */
-	bit_index = element % sizeof(char); /* index of the bit to be turned on */
+	char_index = element / (sizeof(char) * 8); /* index of sets[i].set_values */
+	bit_index = element % (sizeof(char) * 8); /* index of the bit to be turned on */
 
 	char_mask = create_mask(bit_index);
 	
@@ -135,9 +136,9 @@ void add_int_to_set(int element, int i)
 /* create a bit mask with bit_index turned on */
 char create_mask(int bit_index)
 {
-	char c;
+	char c = 0 ;
 
-	c = 1 << (sizeof(c) - (bit_index -1));
+	c = 1 << ((sizeof(c) * 8) - (bit_index -1));
 
 	return c;
 }
