@@ -89,7 +89,52 @@ void read_numbers_to_set_name()
 
 void print_set()
 {
-	printf("print_set");
+	char cmd_from_stdin[MAX_COMMAND_LENGTH];
+	char * tmp_set_name = NULL;
+	int i, char_index, byte, byte_index, count = 1;
+
+	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
+	{
+                /* allocate and copy set name */
+                tmp_set_name = malloc(SET_NAME_LENGTH +1);
+
+                for (i = 0; i < SET_NAME_LENGTH; i++)
+                        tmp_set_name[i] = cmd_from_stdin[i];
+
+                /* validating 1st command argument is a defined set and keeping sets index into i*/
+                if ((i = get_set_index(tmp_set_name)) < 0 )
+		{
+                        free(tmp_set_name);
+                        return;
+                }
+
+                free(tmp_set_name);
+
+		/* printing every byte one of top of the other */
+		printf("%s =\n{ ", sets[i].set_name);
+		for ( char_index = 0; char_index < SET_SIZE_MAX / (sizeof(char) * 8) ; char_index++)
+		{
+			/* print the content off each character */
+			for (byte = 1, byte_index = 0 ; byte != 1 >> (sizeof(char) * 8) ; byte = byte << 1, byte_index++)
+			{
+				if ((sets[i].set_values[char_index] & byte) != 0)
+				{
+					printf("%ld ", (char_index * (sizeof(char) * 8)) + byte_index);
+					count++;
+				}
+
+				if (count == 16 && byte_index != 0)
+				{
+					count = 1;	
+					putchar('\n');
+				}
+			}
+		}
+		printf(" }\n");
+	}
+        else
+                printf("ERROR - Can't read from stdin\n");
+	
 }
 
 /* print the binary representation of the set value */
