@@ -91,7 +91,7 @@ void print_set()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
 	char * tmp_set_name = NULL;
-	int i, char_index, byte, byte_index, count = 1;
+	int i, char_index, byte, byte_index, count = 0;
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
@@ -110,27 +110,29 @@ void print_set()
 
                 free(tmp_set_name);
 
-		/* printing every byte one of top of the other */
-		printf("%s =\n{ ", sets[i].set_name);
+		/* printing every element in set separed by tab with max of 16 per line */
+		printf("%s =\n", sets[i].set_name);
 		for ( char_index = 0; char_index < SET_SIZE_MAX / (sizeof(char) * 8) ; char_index++)
 		{
 			/* print the content off each character */
-			for (byte = 1, byte_index = 0 ; byte != 1 >> (sizeof(char) * 8) ; byte = byte << 1, byte_index++)
+			for (byte = 1 << ((sizeof(char) * 8) -1), byte_index = 0 ; byte != 0 ; byte = byte >> 1, byte_index++)
 			{
+				/* checking if element exists */
 				if ((sets[i].set_values[char_index] & byte) != 0)
 				{
-					printf("%ld ", (char_index * (sizeof(char) * 8)) + byte_index);
+					printf("%ld\t", (char_index * (sizeof(char) * 8)) + byte_index);
 					count++;
 				}
 
+				/* checking if return to a new line is needed */
 				if (count == 16 && byte_index != 0)
 				{
-					count = 1;	
+					count = 0;	
 					putchar('\n');
 				}
 			}
 		}
-		printf(" }\n");
+		printf("\n");
 	}
         else
                 printf("ERROR - Can't read from stdin\n");
@@ -163,10 +165,10 @@ void print_set_bin()
 
                 free(tmp_set_name);
 
-		/* printing every byte one of top of the other */
+		/* printing every byte one by line */
 		for ( char_index = 0; char_index < SET_SIZE_MAX / (sizeof(char) * 8) ; char_index++)
 		{
-			/* print the content off each character */
+			/* print the content off each byte */
 			for (byte = 1 ; byte != 1 >> (sizeof(char) * 8) ; byte = byte << 1)
 				putchar((sets[i].set_values[char_index] & byte) ? '1' : '0');
 			putchar('\n');

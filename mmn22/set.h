@@ -9,7 +9,7 @@
 #define MAX_NUMBER_OF_SETS 26 /* total of 26 alphabeic capital letters (A-Z) - due to set name convention (SET<capital_letter>) */
 #define SET_NAME_LENGTH 4
 #define SET_NAME_PREFIX "SET"
-#define MAX_COMMAND_LENGTH 120
+#define MAX_COMMAND_LENGTH 500 
 #define BAR " =============== "
 #define COMMAND_PROMPT "(set_calculator) >>> "
 #define NUMBER_OF_COMMANDS 10
