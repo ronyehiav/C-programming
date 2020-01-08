@@ -96,7 +96,7 @@ void print_set()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
 	char * tmp_set_name = NULL;
-	int i, char_index, byte, byte_index, count = 0;
+	int i, j, char_index, byte, byte_index, count = 0, empty = 0;
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
@@ -116,29 +116,37 @@ void print_set()
 
                 free(tmp_set_name);
 
-		/* printing every element in set separed by tab with max of 16 per line */
-		printf("%s =\n", sets[i].set_name);
-		for ( char_index = 0; char_index < SET_SIZE_MAX / (sizeof(char) * 8) ; char_index++)
+		/* Checking if set is empty */
+	         for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
+        	         if (sets[i].set_values[j] != 0)
+				empty++;
+		if (empty <= 0)
+			printf("%s is empty!\n", sets[i].set_name); 
+		else /* printing every element in set separed by tab with max of 16 per line */
 		{
-			/* print the content off each character */
-			for (byte = 1 << ((sizeof(char) * 8) -1), byte_index = 0 ; byte != 0 ; byte = byte >> 1, byte_index++)
+			printf("%s =\n", sets[i].set_name);
+			for ( char_index = 0; char_index < SET_SIZE_MAX / (sizeof(char) * 8) ; char_index++)
 			{
-				/* checking if element exists */
-				if ((sets[i].set_values[char_index] & byte) != 0)
+				/* print the content off each character */
+				for (byte = 1 << ((sizeof(char) * 8) -1), byte_index = 0 ; byte != 0 ; byte = byte >> 1, byte_index++)
 				{
-					printf("%ld\t", (char_index * (sizeof(char) * 8)) + byte_index);
-					count++;
-				}
+					/* checking if element exists */
+					if ((sets[i].set_values[char_index] & byte) != 0)
+					{
+						printf("%ld\t", (char_index * (sizeof(char) * 8)) + byte_index);
+						count++;
+					}
 
-				/* checking if return to a new line is needed */
-				if (count == 16 && byte_index != 0)
-				{
-					count = 0;	
-					putchar('\n');
+					/* checking if return to a new line is needed */
+					if (count == 16 && byte_index != 0)
+					{
+						count = 0;	
+						putchar('\n');
+					}
 				}
 			}
+			printf("\n");
 		}
-		printf("\n");
 	}
         else
                 printf("ERROR - Can't read from stdin\n");
