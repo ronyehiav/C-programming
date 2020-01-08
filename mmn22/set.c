@@ -17,6 +17,7 @@ void read_numbers_to_set_name()
 
 		for (i = 0; i < SET_NAME_LENGTH; i++)
 			tmp_set_name[i] = cmd_from_stdin[i];
+		tmp_set_name[i] = '\0';
 
 		/* validating 1st command argument is a defined set and keeping sets index into i*/
 		if ((i = get_set_index(tmp_set_name)) < 0 )
@@ -101,6 +102,7 @@ void print_set()
 
                 for (i = 0; i < SET_NAME_LENGTH; i++)
                         tmp_set_name[i] = cmd_from_stdin[i];
+		tmp_set_name[i] = '\0';
 
                 /* validating 1st command argument is a defined set and keeping sets index into i*/
                 if ((i = get_set_index(tmp_set_name)) < 0 )
@@ -152,10 +154,11 @@ void print_set_bin()
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
                 /* allocate and copy set name */
-                tmp_set_name = malloc(SET_NAME_LENGTH +1);
+                tmp_set_name = (char *) malloc(SET_NAME_LENGTH +1);
 
                 for (i = 0; i < SET_NAME_LENGTH; i++)
                         tmp_set_name[i] = cmd_from_stdin[i];
+		tmp_set_name[i] = '\0';
 
                 /* validating 1st command argument is a defined set and keeping sets index into i*/
                 if ((i = get_set_index(tmp_set_name)) < 0 )

@@ -177,6 +177,9 @@ void do_operation_on_set(int operation)
 			b[i] = cmd_from_stdin[i + SET_NAME_LENGTH + 1]; 
 			destination[i] = cmd_from_stdin[i + (2 * SET_NAME_LENGTH) + 2];
 		}
+		a[i] = '\0';
+		b[i] = '\0';
+		destination[i] = '\0';
 
 		/* validating set names are defined - can reuse the <a/b/c>_index variable */
 		if (((a_index = get_set_index(a)) < 0 ) || 
