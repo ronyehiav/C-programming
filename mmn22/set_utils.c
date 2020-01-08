@@ -207,7 +207,7 @@ void do_operation_on_set(int operation)
 			empty_set(destination_index);
 
 		/* keeping into destination the result of a operation b */
-		for (i = 0; i < (sizeof(char) * 8) ; i++)
+		for (i = 0; i < (SET_SIZE_MAX / (sizeof(char) * 8)) ; i++)
 		{
 			if (operation == UNION)
 				sets[destination_index].set_values[i] = sets[a_index].set_values[i] | sets[b_index].set_values[i];

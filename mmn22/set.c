@@ -125,13 +125,6 @@ void print_set()
 
                 free(tmp_set_name);
 
-		/* checking if extra input */ 
-		if (cmd_from_stdin[SET_NAME_LENGTH + 1] != '\0')
-		{
-			printf("ERROR - Extraneous text after end of command\n");
-			return;
-		}
-
 		/* Checking if set is empty */
 		for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
 			if (sets[i].set_values[j] != 0)
