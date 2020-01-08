@@ -238,10 +238,10 @@ int validate_operation_command(char * str)
 		{
 			error_counter++;
 			if (str[i] == ',' && i > 0 && str[i] == ',') 
-				printf("ERROR - Multiple consecutive commas");
+				printf("ERROR - Multiple consecutive commas\n");
 
 			else if (isupper(str[i] == 0))
-				printf("ERROR - Undefined set name");
+				printf("ERROR - Undefined set name\n");
 			
 			else 
 				error_counter--;
@@ -253,17 +253,17 @@ int validate_operation_command(char * str)
 				error_counter++;
 
 				if (isalpha(str[i]))
-					printf("ERROR - Undefined set name");
+					printf("ERROR - Undefined set name\n");
 
 				else
-					printf("ERROR - Unrecognized character");
+					printf("ERROR - Unrecognized character\n");
 			}
 		}
 	}
 
 	if (strlen(str) < ((3 * SET_NAME_LENGTH) + 2))
 	{
-		printf("ERROR - Missing parameter");
+		printf("ERROR - Missing parameter\n");
 		error_counter++;
 	}
 
