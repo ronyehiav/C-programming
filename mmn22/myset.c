@@ -3,7 +3,7 @@
 int main()
 {
 	char cmd_from_stdin[MAX_COMMAND_LENGTH];
-	int i;
+	int i, return_code;
 
 	initialize_sets();
 	
@@ -14,7 +14,7 @@ int main()
 		printf(COMMAND_PROMPT);
 		
 		/* if input detected */
-		if (scanf("%s", cmd_from_stdin) == 1) /* store the first word of the input into cmd_from_stdin */
+		if ((return_code = scanf("%s", cmd_from_stdin)) == 1) /* store the first word of the input into cmd_from_stdin */
 		{
 			for ( i = 0 ; cmds[i].command_function != NULL ; i++ )
 			{
@@ -26,6 +26,11 @@ int main()
 				printf("\nERROR - Undefined command name: %s\n", cmd_from_stdin);
 			else
 				(*cmds[i].command_function)(); /* run the according command function */ 
+		}
+		else if (return_code == EOF)
+		{
+			printf("\nERROR - The program was not exited correctly\n");
+			stop();
 		}
 	}
 	
