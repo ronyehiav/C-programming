@@ -100,6 +100,9 @@ void print_set()
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* remove spaces */
+		remove_spaces(cmd_from_stdin);
+
                 /* allocate and copy set name */
                 tmp_set_name = malloc(SET_NAME_LENGTH +1);
 
@@ -116,10 +119,18 @@ void print_set()
 
                 free(tmp_set_name);
 
+		/* checking if extra input */ 
+		if (cmd_from_stdin[SET_NAME_LENGTH + 1] != '\0')
+		{
+			printf("ERROR - Extraneous text after end of command\n");
+			return;
+		}
+
 		/* Checking if set is empty */
-	         for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
-        	         if (sets[i].set_values[j] != 0)
+		for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
+			if (sets[i].set_values[j] != 0)
 				empty++;
+
 		if (empty <= 0)
 			printf("%s is empty!\n", sets[i].set_name); 
 		else /* printing every element in set separed by tab with max of 16 per line */
@@ -164,6 +175,9 @@ void print_set_bin()
 	
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* remove spaces */
+		remove_spaces(cmd_from_stdin);
+
                 /* allocate and copy set name */
                 tmp_set_name = (char *) malloc(SET_NAME_LENGTH +1);
 
