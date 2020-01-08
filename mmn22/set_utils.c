@@ -200,16 +200,16 @@ void do_operation_on_set(int operation)
 		for (i = 0; i < (sizeof(char) * 8) ; i++)
 		{
 			if (operation == UNION)
-				destination[i] = a[i] | b[i];
+				sets[destination_index].set_values[i] = sets[a_index].set_values[i] | sets[b_index].set_values[i];
 
 			if (operation == INTERSECTION)
-				destination[i] = a[i] & b[i];
+				sets[destination_index].set_values[i] = sets[a_index].set_values[i] & sets[b_index].set_values[i];
 
 			if (operation == SUBSTRACT)
-				destination[i] = a[i] & ~b[i];
+				sets[destination_index].set_values[i] = sets[a_index].set_values[i] & ~sets[b_index].set_values[i];
 
 			if (operation == SYMETRICAL_DIFFERENCE)
-				destination[i] = a[i] ^ b[i];
+				sets[destination_index].set_values[i] = sets[a_index].set_values[i] ^ sets[b_index].set_values[i];
 		}
 	}
         else
