@@ -198,8 +198,10 @@ void do_operation_on_set(int operation)
 		free(b);
 		free(destination);
 
-		/* empty destination set before adding new values (if any) */
-		empty_set(destination_index);
+		/* empty destination set before adding new values (if any) 
+		   checking if destination set is a or b to not empty the set */
+		if (a_index != destination_index && b_index != destination_index)
+			empty_set(destination_index);
 
 		/* keeping into destination the result of a operation b */
 		for (i = 0; i < (sizeof(char) * 8) ; i++)
