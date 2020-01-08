@@ -17,12 +17,8 @@
 #define MAX_ELEMENT_VALUE 127
 #define MIN_ELEMENT_VALUE 0
 
-#define UNION 1
-#define INTERSECTION 2
-#define SUBSTRACT 3
-#define SYMETRICAL_DIFFERENCE 4
-
-
+/* set enum for set operations */
+enum op {UNION, INTERSECTION, SUBSTRACT, SYMETRICAL_DIFFERENCE};
 
 /* set struct declaration */ 
 typedef struct {
