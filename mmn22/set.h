@@ -58,6 +58,7 @@ void add_mask_to_set(char *, char);
 char create_mask(int);
 void do_operation_on_set(int);
 int validate_operation_command(char *);
+void empty_set(int);
 
 
 set sets[NUMBER_OF_SETS <= MAX_NUMBER_OF_SETS ? NUMBER_OF_SETS : MAX_NUMBER_OF_SETS]; /* sets declaration */

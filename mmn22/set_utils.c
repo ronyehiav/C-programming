@@ -17,16 +17,18 @@ command cmds[NUMBER_OF_COMMANDS] = {
 /* Initialize all the sets as empty sets*/
 void initialize_sets()
 {
-	int i, j;
+	int i;
 
 	for ( i = 'A' ; i <= 'A' + NUMBER_OF_SETS && i <= 'A' + MAX_NUMBER_OF_SETS ; i++)
 	{
 		/* configure the set name with format: SET<capital_letter> */
 		sprintf(sets[i - 'A'].set_name, SET_NAME_PREFIX "%c" , (char)i);
 
+		empty_set(i-'A');
+/*
 		for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
-			/* configure the set as empty */
 			sets[i-'A'].set_values[j] = 0;
+*/
 	}
 }
 
@@ -191,10 +193,13 @@ void do_operation_on_set(int operation)
 			free(destination);
 			return;
 		}
-		
+
 		free(a);
 		free(b);
 		free(destination);
+
+		/* empty destination set before adding new values (if any) */
+		empty_set(destination_index);
 
 		/* keeping into destination the result of a operation b */
 		for (i = 0; i < (sizeof(char) * 8) ; i++)
@@ -263,4 +268,15 @@ int validate_operation_command(char * str)
 	if (error_counter > 0)
 		return -1;
 	return 0;
+}
+
+/* set a set as empty - no elements 
+   parameter set_index represent the index of the set in sets[]  */
+void empty_set(int set_index)
+{
+	int j;
+
+	for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
+		/* configure the set as empty */
+		sets[set_index].set_values[j] = 0;
 }

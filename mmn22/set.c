@@ -28,6 +28,9 @@ void read_numbers_to_set_name()
 
 		free(tmp_set_name);
 
+		/* empty set values before adding new element to set */
+		empty_set(i);
+
 		/* validating list of elements from input */ 
 		if (validate_list_of_elements(cmd_from_stdin + (SET_NAME_LENGTH +1)) >= 0) /* pointing to the beggining of the list of elements */
 		{
