@@ -18,7 +18,7 @@
 #define MIN_ELEMENT_VALUE 0
 
 /* set enum for set operations */
-enum op {UNION, INTERSECTION, SUBSTRACT, SYMETRICAL_DIFFERENCE};
+enum set_operations {UNION, INTERSECTION, SUBSTRACT, SYMETRICAL_DIFFERENCE};
 
 /* set struct declaration */ 
 typedef struct {
