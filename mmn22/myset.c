@@ -16,6 +16,9 @@ int main()
 		/* if input detected */
 		if ((return_code = scanf("%s", cmd_from_stdin)) == 1) /* store the first word of the input into cmd_from_stdin */
 		{
+			/* printing command to stdout */
+			printf("%s", cmd_from_stdin);
+
 			for ( i = 0 ; cmds[i].command_function != NULL ; i++ )
 			{
 				if (strcmp(cmd_from_stdin, cmds[i].command_name) == 0) /* compare cmd_from_stdin with the list of commands available */

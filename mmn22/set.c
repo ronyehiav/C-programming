@@ -9,6 +9,9 @@ void read_numbers_to_set_name()
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* printing command to stdout */
+		printf(" %s\n", cmd_from_stdin);
+
 		/* removing blank space from cmd_from_stdin */
 		remove_spaces(cmd_from_stdin);
 		
@@ -100,6 +103,9 @@ void print_set()
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* printing command to stdout */
+		printf(" %s\n", cmd_from_stdin);
+
 		/* remove spaces */
 		remove_spaces(cmd_from_stdin);
 
@@ -175,6 +181,9 @@ void print_set_bin()
 	
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* printing command to stdout */
+		printf(" %s\n", cmd_from_stdin);
+
 		/* remove spaces */
 		remove_spaces(cmd_from_stdin);
 
@@ -234,7 +243,7 @@ void symetric_difference_set()
 /* stop the program */
 void stop()
 {
-	printf("Exiting ...\n");
+	printf("\nExiting ...\n");
 	exit(1);
 }
 
@@ -243,7 +252,7 @@ void help()
 {
 	int i;
 
-	printf("%sHelp%s\n", BAR, BAR);
+	printf("\n%sHelp%s\n", BAR, BAR);
 	for ( i = 0 ; cmds[i].command_function != NULL ; i++ )
 		printf("Command: %s\nDescription: %s\nUsage: %s\n\n", cmds[i].command_name, cmds[i].description, cmds[i].usage);
 }

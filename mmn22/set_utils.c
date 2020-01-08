@@ -160,6 +160,9 @@ void do_operation_on_set(int operation)
 
 	if (scanf(" %[^\n]s", cmd_from_stdin) == 1)
 	{
+		/* printing command to stdout */
+		printf(" %s\n", cmd_from_stdin);
+
 		/* removing blank space from cmd_from_stdin */
 		remove_spaces(cmd_from_stdin);
 
