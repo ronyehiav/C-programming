@@ -14,6 +14,7 @@ command cmds[NUMBER_OF_COMMANDS] = {
                 {"not_valid", NULL, NULL, NULL}
         };
 
+
 /* Initialize all the sets as empty sets*/
 void initialize_sets()
 {
@@ -24,11 +25,8 @@ void initialize_sets()
 		/* configure the set name with format: SET<capital_letter> */
 		sprintf(sets[i - 'A'].set_name, SET_NAME_PREFIX "%c" , (char)i);
 
+		/* initialize the set as empty */
 		empty_set(i-'A');
-/*
-		for ( j = 0 ; j < SET_SIZE_MAX / (sizeof(char) * 8) ; j++ )
-			sets[i-'A'].set_values[j] = 0;
-*/
 	}
 }
 
@@ -96,6 +94,9 @@ void remove_spaces(char *  str_trimmed)
 	}
 	*str_trimmed = '\0';
 	str_untrimmed = str_head_pointer;
+	
+	/* the backed up str is kept into sre_untrimmed 
+	   if need to be use in future implementation, need to remove the free */
 	free(&*str_untrimmed);
 }
 

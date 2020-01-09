@@ -1,0 +1,52 @@
+Hello and welcome to set calculator!
+Feel free to type the "help" command for more information
+
+(set_calculator) >>> read_set SETG, 3, 6, 5, 4, 4, -1
+ERROR - Undefined set name: SETG
+(set_calculator) >>> read_set setA, 3, 6, 5, 4, 4, -1
+ERROR - Undefined set name: setA
+(set_calculator) >>> do_it SETA, SETB, SETC
+ERROR - Undefined command name
+(set_calculator) >>> UNION_set SETA, SETB, SETC
+ERROR - Undefined command name
+(set_calculator) >>> read_set SETB, 45, 567, 34, -1
+ERROR - Invalid set member - value out of range
+(set_calculator) >>> read_set SETA, 45, 56, 45, 34
+ERROR - List of set members is not terminated correctly
+(set_calculator) >>> read_set SETA, 45 ,-3, 2, 45, 34, -1
+ERROR - Invalid set member: not an integer
+(set_calculator) >>> read_set SETA, 45, 2, xyz, 34, -1
+ERROR - Invalid set member: not an integer
+(set_calculator) >>> read_set SETA, 45, 2, 24.0, 34, -1
+ERROR - Invalid set member: not an integer
+(set_calculator) >>> union_set SETA,	SETB
+ERROR - Missing parameter
+(set_calculator) >>> print_set SETA,SETB
+ERROR - Extraneous text after end of command
+(set_calculator) >>> sub_set SETF, , SETD, SETA
+ERROR - Multiple consecutive commas
+(set_calculator) >>> intersect_set SETF SETD SETA
+ERROR - Undefined set name
+ERROR - Missing parameter
+(set_calculator) >>> symdiff_set, SETF, SETB, SETA
+ERROR - Undefined command name
+(set_calculator) >>> read_set SETA,99,-1
+(set_calculator) >>> union_set SETA,SETA,SETA
+(set_calculator) >>> print_set SETA
+SETA =
+99	
+(set_calculator) >>> intersect_set SETA,SETA,SETA
+(set_calculator) >>> print_set SETA
+SETA =
+99	
+(set_calculator) >>> sub_set SETA,SETA,SETA
+(set_calculator) >>> print_set SETA
+SETA is empty!
+(set_calculator) >>> read_set SETA,1,-1
+(set_calculator) >>> symdiff_set SETA,SETA,SETA
+(set_calculator) >>> print_set SETA
+SETA is empty!
+(set_calculator) >>> 
+ERROR - The program was not exited correctly
+
+Exiting ...

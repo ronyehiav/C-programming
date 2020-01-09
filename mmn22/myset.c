@@ -32,7 +32,7 @@ int main()
 				if (( scanf(" %[^\n]s", cmd_from_stdin)) == 1) 
 				{
 					printf(" %s", cmd_from_stdin);
-					printf("\nERROR - Undefined command name: %s\n", cmd_from_stdin);
+					printf("\nERROR - Undefined command name\n");
 				}
 			}
 			else

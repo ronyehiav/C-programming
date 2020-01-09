@@ -116,6 +116,14 @@ void print_set()
                         tmp_set_name[i] = cmd_from_stdin[i];
 		tmp_set_name[i] = '\0';
 
+		/* case when the command contains more arguments than required */
+		if (cmd_from_stdin[i] != '\0')
+		{
+			printf("ERROR - Extraneous text after end of command\n");
+			free(tmp_set_name);
+			return;
+		}
+
                 /* validating 1st command argument is a defined set and keeping sets index into i*/
                 if ((i = get_set_index(tmp_set_name)) < 0 )
 		{

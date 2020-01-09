@@ -1,0 +1,84 @@
+Hello and welcome to set calculator!
+Feel free to type the "help" command for more information
+
+(set_calculator) >>> print_set SETA
+SETA is empty!
+(set_calculator) >>> print_set SETB
+SETB is empty!
+(set_calculator) >>> print_set SETC
+SETC is empty!
+(set_calculator) >>> print_set SETD
+SETD is empty!
+(set_calculator) >>> print_set SETE
+SETE is empty!
+(set_calculator) >>> print_set SETF
+SETF is empty!
+(set_calculator) >>> read_set SETA, 45, 23, 6, 7, 4, 3, 75 ,45, 34, -1
+(set_calculator) >>> print_set SETA
+SETA =
+3	4	6	7	23	34	45	75	
+(set_calculator) >>> read_set SETB, 5, 4, 3, 2, 78, 45, 43, -1
+(set_calculator) >>> print_set SETB
+SETB =
+2	3	4	5	43	45	78	
+(set_calculator) >>> read_set SETC,100,105,101,103,104,-1
+(set_calculator) >>> print_set SETC
+SETC =
+100	101	103	104	105	
+(set_calculator) >>> read_set SETC,127,0,3,126,127,0,-1
+(set_calculator) >>> print_set SETC
+SETC =
+0	3	126	127	
+(set_calculator) >>> read_set SETC,-1
+(set_calculator) >>> print_set SETC
+SETC is empty!
+(set_calculator) >>> read_set SETD, -1
+(set_calculator) >>> print_set SETD
+SETD is empty!
+(set_calculator) >>> read_set SETC , 110 , 111, 112 , -1
+(set_calculator) >>> print_set SETC
+SETC =
+110	111	112	
+(set_calculator) >>> union_set SETA, SETB, SETD
+(set_calculator) >>> print_set SETD
+SETD =
+2	3	4	5	6	7	23	34	43	45	75	78	
+(set_calculator) >>> intersect_set SETA, SETB, SETE
+(set_calculator) >>> print_set SETE
+SETE =
+3	4	45	
+(set_calculator) >>> sub_set SETA, SETB, SETF
+(set_calculator) >>> print_set SETF
+SETF =
+6	7	23	34	75	
+(set_calculator) >>> symdiff_set SETA, SETB, SETF
+(set_calculator) >>> print_set SETF
+SETF =
+2	5	6	7	23	34	43	75	78	
+(set_calculator) >>> intersect_set SETA, SETC, SETD
+(set_calculator) >>> print_set SETD
+SETD is empty!
+(set_calculator) >>> union_set SETB, SETB, SETE
+(set_calculator) >>> print_set SETE
+SETE =
+2	3	4	5	43	45	78	
+(set_calculator) >>> intersect_set SETB, SETA, SETB
+(set_calculator) >>> print_set SETB
+SETB =
+3	4	45	
+(set_calculator) >>> union_set SETA, SETC, SETC 
+(set_calculator) >>> 10 print_set SETC
+ERROR - Undefined command name: print_set SETC
+(set_calculator) >>> symdiff_set SETC, SETA, SETC
+(set_calculator) >>> print_set SETC
+SETC =
+110	111	112	
+(set_calculator) >>> sub_set SETC,SETC,SETC
+(set_calculator) >>> print_set SETC
+SETC is empty!
+(set_calculator) >>> union_set SETF , SETC , SETF
+(set_calculator) >>> print_set SETF
+SETF =
+2	5	6	7	23	34	43	75	78	
+(set_calculator) >>> stop
+Exiting ...
