@@ -25,8 +25,16 @@ int main()
 					break;
 			}
 			
+			/* checking if the command exists */
 			if (cmds[i].command_function == NULL) 
-				printf("\nERROR - Undefined command name: %s\n", cmd_from_stdin);
+			{
+				/* if the command dont exists, print the end of the command to stdout */
+				if (( scanf(" %[^\n]s", cmd_from_stdin)) == 1) 
+				{
+					printf(" %s", cmd_from_stdin);
+					printf("\nERROR - Undefined command name: %s\n", cmd_from_stdin);
+				}
+			}
 			else
 				(*cmds[i].command_function)(); /* run the according command function */ 
 		}
