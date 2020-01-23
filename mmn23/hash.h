@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #define MIN_NUMBER_VALUE 0
 #define MAX_NUMBER_VALUE 28

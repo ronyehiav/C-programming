@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
 		/* open file - once at a time due to the iteration */
 		if (!(fd = fopen(argv[file_index], "r")))
 		{
-			printf("ERROR - Can't open the file: %s", argv[file_index]);
+			printf("ERROR - Can't open the file: %s - %s", argv[file_index], strerror(errno));
 			return 2;
 		}
 
