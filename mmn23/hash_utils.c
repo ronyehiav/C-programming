@@ -18,7 +18,7 @@ void insert_value_to_list(char * file_name, node * head)
 	/* allocate new node */
 	if(!(new_node = malloc(sizeof(node))))
 	{
-		printf("ERROR - Can't allocate a new node");
+		printf("ERROR - Can't allocate a new node\n");
 		return;
 	}
 

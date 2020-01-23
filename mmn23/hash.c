@@ -7,9 +7,9 @@ int main(int argc, char * argv[])
 	FILE * fd;	
 
 	/* validate minimum number of arguments */
-	if (argc <= MIN_NUMBER_OF_ARGS)
+	if (argc < MIN_NUMBER_OF_ARGS)
 	{
-		printf("ERROR - Number of command-line argument provided is: %d - Required is: %d", argc, MIN_NUMBER_OF_ARGS);
+		printf("ERROR - Number of command-line argument provided is: %d - Required is: %d\n", argc, MIN_NUMBER_OF_ARGS);
 		return 1;
 	}
 
@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
 		/* open file - once at a time due to the iteration */
 		if (!(fd = fopen(argv[file_index], "r")))
 		{
-			printf("ERROR - Can't open the file: %s - %s", argv[file_index], strerror(errno));
+			printf("ERROR - Can't open the file: %s - %s\n", argv[file_index], strerror(errno));
 			return 2;
 		}
 
@@ -29,7 +29,7 @@ int main(int argc, char * argv[])
 		fclose(fd);
 	}
 
-	print_hash_table(hash_table);
+/*	print_hash_table(hash_table);*/
 	
 	return 0;
 }
