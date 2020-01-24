@@ -7,3 +7,5 @@ output.5 - ./hash dat5.in
 output.6 - ./hash dat3.in dat2.in
 output.7 - ./hash dat3.in dat3.in dat3.in dat3.in dat3.in dat3.in
 output.8 - ./hash dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in
+0 appears in file dat5.in - 3569 times
+output.9 - ./hash dat3.ini > output.9 2>&1

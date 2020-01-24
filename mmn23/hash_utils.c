@@ -21,14 +21,14 @@ void insert_value_to_list(char * file_name, node ** head)
 	/* allocate new node */
 	if(!(new_node = malloc(sizeof(node))))
 	{
-		printf("ERROR - Can't allocate a new node\n");
+		fprintf(stderr, "ERROR - Can't allocate a new node\n");
 		return;
 	}
 
 	/* copy file name to be used by the node */
 	if(!(new_file_name = malloc(sizeof(file_name))))
 	{
-		printf("ERROR - Can't allocate a new file name\n");
+		fprintf(stderr, "ERROR - Can't allocate a new file name\n");
 		return;
 	}
 	strcpy(new_file_name, file_name);
