@@ -1,5 +1,6 @@
 #include "hash.h"
 
+/* this fuction read the given file content and add the values in the hash table */
 void read_file_values_into_hash_table(FILE * fd, char * file_name, node * hash_table[])
 {
 	int value;
@@ -11,6 +12,7 @@ void read_file_values_into_hash_table(FILE * fd, char * file_name, node * hash_t
 	}
 }
 
+/* this function add add the value to the list according to if node exist or not */
 void insert_value_to_list(char * file_name, node ** head)
 {
 	node * new_node, * pointer;
@@ -64,6 +66,7 @@ void insert_value_to_list(char * file_name, node ** head)
 	}
 }
 
+/* print hash table according to the requirements */
 void print_hash_table(node * hash_table[])
 {
 	int i;
