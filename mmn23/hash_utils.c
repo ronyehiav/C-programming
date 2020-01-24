@@ -7,11 +7,11 @@ void read_file_values_into_hash_table(FILE * fd, char * file_name, node * hash_t
 	/* iterate over every value in file */
 	while (fscanf(fd, "%d", &value) != EOF)
 	{
-		insert_value_to_list(file_name, hash_table[value]);
+		insert_value_to_list(file_name, &hash_table[value]);
 	}
 }
 
-void insert_value_to_list(char * file_name, node * head)
+void insert_value_to_list(char * file_name, node ** head)
 {
 	node * new_node, * pointer;
 	char * new_file_name;
@@ -37,19 +37,19 @@ void insert_value_to_list(char * file_name, node * head)
 	new_node->next = NULL;
 
 	/* empty list case */
-	if (head == NULL)
-		head = new_node;
+	if (* head == NULL)
+		* head = new_node;
 
 	else /* not empty list */
 	{
-		pointer = head;
+		pointer = * head;
 
 		/* traverse the linked list until file_name is found or before last node in list found */
 		while (strcmp(pointer->file_name, file_name) != 0 && pointer->next != NULL)
 			pointer = pointer->next;
 		
 		/* existing node with same file name found */
-		if (pointer->file_name == file_name)
+		if (strcmp(pointer->file_name, file_name) == 0)
 		{
 			pointer->count++;
 
@@ -91,6 +91,8 @@ void print_hash_table(node * hash_table[])
 				/* add plural if needed */
 				if (node->count > 1)
 					putchar('s');
+				
+				node = node->next;
 			}
 			putchar('\n');
 		}

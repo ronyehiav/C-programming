@@ -1,0 +1,9 @@
+Following the command line used for the attached output files:
+output.1 - ./hash dat1.in
+output.2 - ./hash dat2.in 
+output.3 - ./hash dat3.in 
+output.4 - ./hash dat4.in 
+output.5 - ./hash dat5.in 
+output.6 - ./hash dat3.in dat2.in
+output.7 - ./hash dat3.in dat3.in dat3.in dat3.in dat3.in dat3.in
+output.8 - ./hash dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in dat1.in dat2.in dat3.in dat4.in dat5.in

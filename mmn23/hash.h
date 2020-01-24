@@ -20,4 +20,4 @@ typedef struct node
 /* functions prototype */
 void read_file_values_into_hash_table(FILE *, char *, node * []);
 void print_hash_table(node * []);
-void insert_value_to_list(char *, node *);
+void insert_value_to_list(char *, node **);
