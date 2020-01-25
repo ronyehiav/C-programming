@@ -101,3 +101,35 @@ void print_hash_table(node * hash_table[])
 		}
 	} 
 }
+
+/* free all the pre-dynamically allocated memory of the linked lists in the given hash table */
+void free_hash_table(node * hash_table[])
+{
+	int i;
+	node * node, * prev_node;
+
+	/* iterate over all the possible value in the hash table */
+	for (i = 0; i < MAX_NUMBER_VALUE - MIN_NUMBER_VALUE +1; i++)
+	{
+		/* no action item needed if the number was not encountered */ 
+		if (hash_table[i] != NULL)
+		{
+			/* set the pointer to be on the head of the linked list */
+			node = hash_table[i];
+
+			/* traverse the linked list */
+			while (node != NULL)
+			{
+				/* free the dynalically allocated file name */
+				free(node->file_name);
+
+				/* keep a pointer to the current node */
+				prev_node = node;
+				node = node->next;
+				
+				/* free the dynamically allocated node */
+				free(prev_node);
+			}
+		}
+	} 
+}

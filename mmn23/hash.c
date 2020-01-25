@@ -31,5 +31,6 @@ int main(int argc, char * argv[])
 
 	print_hash_table(hash_table);
 	
+	free_hash_table(hash_table);
 	return 0;
 }
