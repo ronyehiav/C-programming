@@ -30,6 +30,9 @@ int add_to_symbol_table(char * name, int value, symbol_type type, symbol_locatio
 {
 	/* new symbol dynamic allocation */
 	symbol * new_symbol = (symbol *)malloc(sizeof(symbol));
+
+	_DEBUG("-->> add_to_symbol_table");
+
 	if (!new_symbol) 
 	{
 		_ERROR(ALLOCATION_ERROR);
@@ -52,6 +55,9 @@ int add_to_symbol_table(char * name, int value, symbol_type type, symbol_locatio
 		symbol_table = new_symbol;
 	}
 
+	_DEBUG("Added new symbol in symbol table");
+
+	_DEBUG("<<-- add_to_symbol_table");	
 	return 0;
 }
 
@@ -60,6 +66,8 @@ void print_symbol_table()
 {
 	symbol * sym = symbol_table;
 	char buffer[MAX_BUFER_LENGTH];
+
+	_DEBUG("-->> print_symbol_table");
 	
 	_DEBUG(PRINT_SYM_TABLE);
 	_DEBUG(LINE);
@@ -79,17 +87,23 @@ void print_symbol_table()
 
 		sym = sym->next;
 	}
+
+	_DEBUG("<<-- print_symbol_table");
 }
 
 /* free the dynamically allocated symbol table */
 void free_symbol_table()
 {
 	symbol * sym;
+
+	_DEBUG("-->> free_symbol_table");
+
 	while(symbol_table)
 	{
 		sym = symbol_table;
 		symbol_table = symbol_table->next;
 		free(sym);
 	}
+	_DEBUG("<<-- free_symbol_table");
 }
 

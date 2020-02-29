@@ -5,7 +5,7 @@ int main(int argc, char * argv[])
 	FILE * fd_input;
 	int file_index;
 
-	/* Following some example about how to use functions:
+	/* Following some example about how to use functions: 
 	_WARNING(WARNING_EXAMPLE);
 	_ERROR(ERROR_EXAMPLE);
 	_DEBUG(DEBUG_EXAMPLE);
