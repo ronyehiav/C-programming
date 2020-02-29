@@ -17,8 +17,10 @@ int main(int argc, char * argv[])
 	print_symbol_table();
 	free_symbol_table();
 	print_symbol_table();
-	*/
-
+	add_to_image(INSTRUCTION_TABLE_TYPE, 111, "11");
+	add_to_image(DATA_TABLE_TYPE, 222, "2");
+	*/	
+	
 
 	/* validate minimum number of arguments */
 	if (argc < MIN_NUMBER_OF_ARGS)
