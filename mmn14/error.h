@@ -2,3 +2,5 @@
 #define ERROR_EXAMPLE "This is a error example"
 #define DEBUG_EXAMPLE "This is a debug example"
 
+#define INVALID_ARGS_NUM "Invalid number of arguments" 
+#define FILE_OPEN "Can't open file:" 
