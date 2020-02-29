@@ -19,3 +19,77 @@ opcode opcodes_table[NUM_OF_OPCODE] = {
 	{14, "rts"},
 	{15, "stop"}
 	};
+
+/* symbol table initialization */
+symbol * symbol_table = NULL;
+
+
+/* add entry the the symbol table
+	return 0 if succeeded     */
+int add_to_symbol_table(char * name, int value, symbol_type type, symbol_location location)
+{
+	/* new symbol dynamic allocation */
+	symbol * new_symbol = (symbol *)malloc(sizeof(symbol));
+	if (!new_symbol) 
+	{
+		_ERROR(ALLOCATION_ERROR);
+		return -1;
+	}
+	
+	/* initialization of the new_symbol */
+	new_symbol->name = name;
+	new_symbol->value = value;
+	new_symbol->type = type;
+	new_symbol->location = location;
+	new_symbol->next = NULL;
+
+	/* choosing the next based on file the table is empty or not */
+	if (symbol_table == NULL)
+		symbol_table = new_symbol;
+	else
+	{
+		new_symbol->next = symbol_table;
+		symbol_table = new_symbol;
+	}
+
+	return 0;
+}
+
+/* print the symbol table */
+void print_symbol_table()
+{
+	symbol * sym = symbol_table;
+	char buffer[MAX_BUFER_LENGTH];
+	
+	_DEBUG(PRINT_SYM_TABLE);
+	_DEBUG(LINE);
+	while (sym != NULL)
+	{
+		_DEBUG(sym->name);
+
+		sprintf(buffer, "%d", sym->value);
+		_DEBUG(buffer);
+
+		sprintf(buffer, "%d", sym->type);
+		_DEBUG(buffer);
+
+		sprintf(buffer, "%d", sym->location);
+		_DEBUG(buffer);
+		_DEBUG(LINE);
+
+		sym = sym->next;
+	}
+}
+
+/* free the dynamically allocated symbol table */
+void free_symbol_table()
+{
+	symbol * sym;
+	while(symbol_table)
+	{
+		sym = symbol_table;
+		symbol_table = symbol_table->next;
+		free(sym);
+	}
+}
+

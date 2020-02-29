@@ -5,12 +5,20 @@ int main(int argc, char * argv[])
 	FILE * fd_input;
 	int file_index;
 
-	/*
+	/* Following some example about how to use functions:
 	_WARNING(WARNING_EXAMPLE);
 	_ERROR(ERROR_EXAMPLE);
 	_DEBUG(DEBUG_EXAMPLE);
 	_DEBUG(opcodes_table[0].name); 	
+	add_to_symbol_table("eliott", 420, DATA, ENTRY);
+	add_to_symbol_table("irit", 101, DATA, NONE);
+	add_to_symbol_table("liott", 40, CODE, EXTERNAL);
+	add_to_symbol_table("tt", 20, CODE, ENTRY);
+	print_symbol_table();
+	free_symbol_table();
+	print_symbol_table();
 	*/
+
 
 	/* validate minimum number of arguments */
 	if (argc < MIN_NUMBER_OF_ARGS)
@@ -40,6 +48,7 @@ int main(int argc, char * argv[])
 
 
 	/* free the dynamically allocated memory */
+	free_symbol_table();
 
 	return 0;
 }
