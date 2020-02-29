@@ -1,0 +1,8 @@
+1st run
+	for every line
+		islabel?
+			add to symtable
+		isextern
+			add to symtable
+		calculate if 1 2 3 word and add to counters accordingly
+	

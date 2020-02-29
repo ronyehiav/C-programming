@@ -4,8 +4,7 @@
 image_entry * instruction_image = NULL;
 image_entry * data_image = NULL;
 
-/* add entry an image
-	return 0 if succeeded     */
+/* add entry an image - return 0 if succeeded     */
 int add_to_image(image_type type, int address, char * code)
 {
 	/* new image entry dynamic allocation */
@@ -19,7 +18,7 @@ int add_to_image(image_type type, int address, char * code)
 		return -1;
 	}
 
-	/* initialization of the new_symbol */
+	/* initialization of the new_entry */
 	new_entry->address = address;
 	new_entry->code = code;
 	new_entry->next = NULL;
@@ -60,6 +59,7 @@ int add_to_image(image_type type, int address, char * code)
 	return 0;
 }
 
+/* free the dynamically allocated image*/
 void free_image(image_type type)
 {
 	image_entry * entry;

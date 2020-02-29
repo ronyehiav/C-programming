@@ -43,7 +43,8 @@ int main(int argc, char * argv[])
 		}
 
 		/* do_assembler will be here */
-		
+		do_assembler(fd_input);		
+
 		/* close file */
 		fclose(fd_input);
 	}	

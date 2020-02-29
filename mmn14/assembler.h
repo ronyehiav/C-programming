@@ -7,11 +7,13 @@
 #define MIN_NUMBER_OF_ARGS 2 /* includes the command itself */
 #define MAX_MESSAGE_SIZE 50
 #define NUM_OF_OPCODE 16
-#define MAX_BUFER_LENGTH 50
+#define MAX_SYMBOL_LENGTH 31
+#define MAX_LINE_LENGTH 80
+#define ZERO 0
 #define LINE "--------------------------------------------------"
 
 typedef enum {INSTRUCTION_TABLE_TYPE, DATA_TABLE_TYPE} image_type;
-typedef enum {CODE, DATA} symbol_type;
+typedef enum {CODE, DATA, NONE=0} symbol_type;
 typedef enum {ENTRY, EXTERNAL, NONE=0} symbol_location;
 
 
@@ -50,6 +52,7 @@ void free_symbol_table();
 void do_assembler(FILE *);
 int add_to_image(image_type, int, char *);
 void free_image(image_type);
+int do_first_run(FILE *);
 
 
 /* opcodes_table declaration */

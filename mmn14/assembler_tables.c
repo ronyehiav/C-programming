@@ -65,7 +65,7 @@ int add_to_symbol_table(char * name, int value, symbol_type type, symbol_locatio
 void print_symbol_table()
 {
 	symbol * sym = symbol_table;
-	char buffer[MAX_BUFER_LENGTH];
+	char buffer[MAX_SYMBOL_LENGTH +1]; /* +1 for \0 - value of the end of array of char */
 
 	_DEBUG("-->> print_symbol_table");
 	
