@@ -45,7 +45,7 @@ int is_label(char str[])
 {
 	int len = 0;
 	/* label start with a letter */
-	if (!(isalpha(str[ZERO]))
+	if (!(isalpha(str[ZERO])))
 		return 0;
 
 	/* label is not more than MAX_SYMBOL_LENGTH long */
@@ -64,8 +64,9 @@ int is_label(char str[])
 */
 int is_valid_label(char str[])
 {
-	/* trunckating the last character (':') to keep the label itself */
-	str[strlen(p)-1] = '\0';
+	/* trunckating the last character (':') to keep the label itself - if any*/
+	if (str[strlen(str)-1] == ':')
+		str[strlen(str)-1] = '\0';
 
 	/* valid label is not already initialized */
 	if (is_a_symbol(str))
@@ -77,12 +78,12 @@ int is_valid_label(char str[])
 
 	/* valid label is not an operation name */
 	if (is_an_operation_name(str))
-		return -1;
+		return 0;
 	
-	return 0;
+	return 1;
 }
 
-/* check if the given string is a register name (r0, r1, ... , r7) */)
+/* check if the given string is a register name (r0, r1, ... , r7) */
 int is_a_register(char str[])
 {
 	if (str[ZERO] == 'r')
@@ -115,7 +116,7 @@ int validate_list_of_elements(char str[])
 		{
 			if (num_started == YES)
 			{
-				element_found = -1;
+				elements_found = -1;
 				break;
 			}
 			num_started = YES;
@@ -126,17 +127,17 @@ int validate_list_of_elements(char str[])
 		{
 			if (num_started == NO) /* 2 ',' in a row case */
 			{
-				element_found = -1;
+				elements_found = -1;
 				break;
 			}
 
 			/* new element found */
-			element_found++;
+			elements_found++;
 			num_started = NO;
 		}
 		else
 		{
-			element_found = -1;
+			elements_found = -1;
 			break;
 		}
 	}
@@ -166,4 +167,24 @@ void remove_spaces(char *  str_trimmed)
 	/* the backed up str is kept into sre_untrimmed
 	   if need to be use in future implementation, need to remove the free */
 	free(&*str_untrimmed);
+}
+
+/* validate_instruction check the validity of the instruction and retrun the number of word used for this instruction 
+	return -1 if invalid instruction */
+int count_instruction_words(char str[])
+{
+	int num_of_operand_expected = -1;
+	int i;
+	char * chunk_of_line;
+	
+	/* catch the first word of the instruction */	
+	chunk_of_line = strtok(str, " ");
+
+	for(i = 0; i < NUM_OF_OPCODE && num_of_operand_expected == ZERO; i++)
+	{
+		if (strcmp(opcodes_table[i].name, chunk_of_line) == ZERO)
+			num_of_operand_expected = opcodes_table[i].operand_number_required;
+	}
+
+	return num_of_operand_expected;
 }

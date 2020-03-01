@@ -35,8 +35,9 @@ void do_assembler(FILE * fd_input)
 int do_first_run(FILE * fd_input)
 {
 	int error_counter = 0;
+	int in_error;
 	char line[MAX_LINE_LENGTH];
-	char chunk_of_line[MAX_LABEL_LENGTH +1]; /* +1 for the \0 value of the end of the array of chars */
+	char * chunk_of_line;
 
 	/* read the file line by line entil EOF */
 	while(fgets(line, MAX_LINE_LENGTH, fd_input))
@@ -50,15 +51,17 @@ int do_first_run(FILE * fd_input)
 		/* label case */
 		if (is_label(chunk_of_line))
 		{
-			char * label;
+			char * label_name;
 			
 			/* validate label validity or go to next line */
 			if(!is_valid_label(chunk_of_line))
+			{
 				_ERROR(INVALID_LABEL_NAME);
 				_ERROR("File ");
 				_ERROR("Line ");
 				error_counter++;
 				break;
+			}
 
 			/* keep the label name in label_name */
 			label_name = chunk_of_line;
@@ -72,15 +75,17 @@ int do_first_run(FILE * fd_input)
 				/* data directive label case */
 				if (is_data(chunk_of_line))
 				{
+					int number_of_elements = 0;
+
 					/* the rest of the line in chunk_of_line */
-					chunk_of_line = strtok(NULL, NULL);
+					chunk_of_line = strtok(NULL, "\0");
 					
 					/* remove spaces from the list */
 					remove_spaces(chunk_of_line);
 
-					if(validate_list_of_elements(chunk_of_line) <= ZERO)
+					if((number_of_elements = validate_list_of_elements(chunk_of_line)) <= ZERO)
 					{	
-						_ERROR(INVALID_LIST);
+						_ERROR(INVALID_LIST_DATA);
 						_ERROR("File " );
 						_ERROR("Line ");
 						error_counter++;
@@ -89,11 +94,12 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, "????", "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 						{
-							if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
+							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
 								_DEBUG("New data symbol registred");
+								DC += number_of_elements;
 							}
 							else
 							{
@@ -119,17 +125,19 @@ int do_first_run(FILE * fd_input)
 					char * start_of_string = NULL, * end_of_string = NULL;
 
 					/* the rest of the line in chunk_of_line */
-					chunk_of_line = strtok(NULL, NULL);
+					chunk_of_line = strtok(NULL, "\0");
 
 					/* iterating over every character */
 					for(i = 0 ; i < strlen(chunk_of_line) ; i++)
 					{
 						/* defining beginning and end of the string */
 						if (chunk_of_line[i] == '"')
+						{
 							if (!start_of_string)
-								start_of_string = chunk_of_line[i];
+								start_of_string = &chunk_of_line[i];
 							else
-								end_of_string = chunk_of_line[i];
+								end_of_string = &chunk_of_line[i];
+						}
 						
 						/* invalid line - cant find a string between double quotes */
 						if ((!(start_of_string)) || (!(end_of_string))) 
@@ -155,9 +163,9 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, "????", "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 						{
-							if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
+							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
 								_DEBUG("New data symbol registred");
 							}
@@ -186,7 +194,7 @@ int do_first_run(FILE * fd_input)
 				/* extern directive label case */
 				else if (is_extern(chunk_of_line))
 				{
-					add_to_symbol_table(label_name, "????", NONE, EXTERNAL); /* NOT SURE IF LEGAL SCENARIO */
+					add_to_symbol_table(label_name, ZERO, NONE, EXTERNAL); /* NOT SURE IF LEGAL SCENARIO */
 				}
 				/* invalid syntax */
 				else
@@ -199,43 +207,33 @@ int do_first_run(FILE * fd_input)
 			}
 			else /* label instruction case */
 			{
+				int instruction_words = 0;
+				
 				/* the rest of the line in chunk_of_line */
-				chunk_of_line = strtok(NULL, NULL);
+				chunk_of_line = strtok(NULL, "\0");
 
-				if(validate_instruction(chunk_of_line) != ZERO)
+				if((instruction_words = count_instruction_words(chunk_of_line)) != ZERO)
 				{
 					_ERROR(INVALID_INSTRUCTION);
 					_ERROR("File " );
 					_ERROR("Line " );
 					error_counter++;
-					IN_ERROR = YES;
+					in_error = YES;
 				}
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					/* NEED TO UNDERSTAND WHAT I DO HERE
-					if (add_to_image(INSTRUCTION_TABLE_TYPE, "????", "code") == ZERO) 
+					if (add_to_symbol_table(label_name, IC, CODE, UNKNOWN) == ZERO)
 					{
-						if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
-						{
-							_DEBUG("New data symbol registred");
-						}
-						else
-						{
-							_ERROR(CANT_ADD_TO_SYMTABLE);
-							_ERROR("File " );
-							_ERROR("Line " );
-							error_counter++;
-						}
+						_DEBUG("New data symbol registred");
 					}
 					else
 					{
-						_ERROR(CANT_ADD_TO_DATA_IMAGE);
+						_ERROR(CANT_ADD_TO_SYMTABLE);
 						_ERROR("File " );
 						_ERROR("Line " );
 						error_counter++;
 					}
-					*/
 				}
 				
 			}
@@ -244,7 +242,18 @@ int do_first_run(FILE * fd_input)
 		{
 			if (is_extern(chunk_of_line))
 			{
-				add_to_symbol_table(label_name, "????", NONE, EXTERNAL);
+				/* next word is label name */
+				chunk_of_line = strtok(NULL, " ");
+
+				if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
+					add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL);
+
+				else
+				{
+					_ERROR(ALREADY_INITIALIZED_LABEL);
+					_ERROR("File ");
+					_ERROR("Line ");
+				}
 			}
 		}
 	} /* end of while loop - line */

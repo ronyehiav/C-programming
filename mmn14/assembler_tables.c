@@ -2,22 +2,22 @@
 
 /* operation code table initialization */
 opcode opcodes_table[NUM_OF_OPCODE] = {
-	{0, "mov"},
-	{1, "cmp"},
-	{2, "add"},
-	{3, "sub"},
-	{4, "lea"},
-	{5, "clr"},
-	{6, "not"},
-	{7, "inc"},
-	{8, "dec"},
-	{9, "jmp"},
-	{10, "bne"},
-	{11, "red"},
-	{12, "prn"},
-	{13, "jsr"},
-	{14, "rts"},
-	{15, "stop"}
+	{0, "mov", 2},
+	{1, "cmp", 2},
+	{2, "add", 2},
+	{3, "sub", 2},
+	{4, "lea", 2},
+	{5, "clr", 1},
+	{6, "not", 1},
+	{7, "inc", 1},
+	{8, "dec", 1},
+	{9, "jmp", 1},
+	{10, "bne", 1},
+	{11, "red", 1},
+	{12, "prn", 1},
+	{13, "jsr", 1},
+	{14, "rts", 0},
+	{15, "stop", 0}
 	};
 
 /* symbol table initialization */
@@ -114,7 +114,7 @@ int is_a_symbol(char str[])
 
 	while (sym != NULL) 
 	{
-		if ((strcmp(sym->name)) == ZERO)
+		if ((strcmp(sym->name, str)) == ZERO)
 			return -1;
 		sym = sym->next;
 	}
@@ -128,7 +128,7 @@ int is_an_operation_name(char str[])
 	
 	for(i = 0;i < NUM_OF_OPCODE ; i++)
 	{
-		if(strcmp(opcodes_table[i]->name, str) == ZERO)
+		if(strcmp(opcodes_table[i].name, str) == ZERO)
 			return -1;
 	}
 	return 0;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <errno.h>
 #include "error.h"
@@ -10,17 +11,23 @@
 #define MAX_SYMBOL_LENGTH 31
 #define MAX_LINE_LENGTH 80
 #define ZERO 0
+#define DATA_DIRECTIVE_TEXT ".data"
+#define STRING_DIRECTIVE_TEXT ".string"
+#define ENTRY_DIRECTIVE_TEXT ".entry"
+#define EXTERN_DIRECTIVE_TEXT ".extern"
 #define LINE "--------------------------------------------------"
 
+enum {YES, NO}; 
 typedef enum {INSTRUCTION_TABLE_TYPE, DATA_TABLE_TYPE} image_type;
 typedef enum {CODE, DATA, NONE=0} symbol_type;
-typedef enum {ENTRY, EXTERNAL, NONE=0} symbol_location;
+typedef enum {ENTRY, EXTERNAL, UNKNOWN=0} symbol_location;
 
 
 /* opcode struct definition */
 typedef struct opcode {
 	int value;
 	char * name;
+	int operand_number_required;
 	} opcode;
 
 /* symbot struct definition */
@@ -58,12 +65,14 @@ int is_string(char []);
 int is_entry(char []);
 int is_extern(char []);
 int is_directive(char []);
+int is_a_symbol(char []);
 int is_label(char []);
 int is_valid_label(char []);
 int is_a_register(char []);
 int is_an_operation_name(char []);
 int validate_list_of_elements(char []);
 void remove_spaces(char *);
+int count_instruction_words(char []);
 
 
 /* opcodes_table declaration */

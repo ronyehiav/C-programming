@@ -1,8 +1,7 @@
-Understand how many spaces to keep and how then change in the code
-used constants
 compile
 run without new code
 add ERROR_FILE_LINE
 add possibility to add multiple data/chars to data images
 stablilize code
+ignore comment line or white space line
 	
