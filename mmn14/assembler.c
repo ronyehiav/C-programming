@@ -42,9 +42,11 @@ int main(int argc, char * argv[])
 			return 2;
 		}
 
-		/* do_assembler will be here */
-		do_assembler(fd_input);		
+		/* start assembling this file */
+		do_assembler(fd_input);
 
+
+		print_image(DATA_TABLE_TYPE);
 		/* close file */
 		fclose(fd_input);
 	}	

@@ -15,3 +15,5 @@
 #define CANT_FIND_STRING "Unable to find the begining or end of the string"
 #define INVALID_LIST_DATA "Invalid list of data"
 #define INVALID_LABEL_NAME "Invalid label name"
+#define PRINT_INSTRUCTION_TABLE "Printing instruction table :"
+#define PRINT_CODE_IMAGE "Printing data table :"

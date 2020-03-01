@@ -87,3 +87,34 @@ void free_image(image_type type)
 	_DEBUG("<<-- free_symbol_table");
 }
 
+/* print the symbol table */
+void print_image(image_type type)
+{
+        image_entry * entry;
+        char buffer[MAX_ADDRESS_SIZE]; 
+
+	_DEBUG("-->> print_image");
+	
+	if (type == INSTRUCTION_TABLE_TYPE)
+	{
+		entry = instruction_image;
+        	_DEBUG(PRINT_INSTRUCTION_TABLE);
+	}
+	else /* (type == DATA_TABLE_TYPE) */
+	{
+		entry = data_image; 
+		_DEBUG(PRINT_CODE_IMAGE);
+	}
+
+        _DEBUG(LINE);
+	
+	while (entry != NULL)
+	{
+		sprintf(buffer, "%d", entry->address);
+		_DEBUG(buffer);
+		_DEBUG(entry->code);
+		_DEBUG(LINE);
+	}
+
+        _DEBUG("<<-- print_image");
+}

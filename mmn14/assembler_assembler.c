@@ -9,6 +9,8 @@ void do_assembler(FILE * fd_input)
 {
 	int error_counter = 0;
 
+	_DEBUG("-->> do_assembler");
+
 	/* images (re)initialization */
 	 instruction_image = NULL;
 	 data_image = NULL;
@@ -25,6 +27,8 @@ void do_assembler(FILE * fd_input)
 	/* free images */
 	free_image(INSTRUCTION_TABLE_TYPE);
 	free_image(DATA_TABLE_TYPE);
+
+	_DEBUG("<<-- do_assembler");
 }
 
 
@@ -38,6 +42,8 @@ int do_first_run(FILE * fd_input)
 	int in_error;
 	char line[MAX_LINE_LENGTH];
 	char * chunk_of_line;
+
+	_DEBUG("-->> do_first_run");
 
 	/* read the file line by line entil EOF */
 	while(fgets(line, MAX_LINE_LENGTH, fd_input))
@@ -258,5 +264,7 @@ int do_first_run(FILE * fd_input)
 		}
 	} /* end of while loop - line */
 	
+	_DEBUG("<<-- do_first_run");
+
 	return error_counter;
 }

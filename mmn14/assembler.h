@@ -10,6 +10,7 @@
 #define NUM_OF_OPCODE 16
 #define MAX_SYMBOL_LENGTH 31
 #define MAX_LINE_LENGTH 80
+#define MAX_ADDRESS_SIZE 10
 #define ZERO 0
 #define DATA_DIRECTIVE_TEXT ".data"
 #define STRING_DIRECTIVE_TEXT ".string"
@@ -73,6 +74,7 @@ int is_an_operation_name(char []);
 int validate_list_of_elements(char []);
 void remove_spaces(char *);
 int count_instruction_words(char []);
+void print_image(image_type);
 
 
 /* opcodes_table declaration */
