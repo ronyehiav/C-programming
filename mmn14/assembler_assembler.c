@@ -64,7 +64,42 @@ int do_first_run(FILE * fd_input)
 				/* data directive label case */
 				if (is_data(chunk_of_line))
 				{
-
+					/* the rest of the line in chunk_of_line */
+					chunk_of_line = strtok(NULL, NULL);
+					
+					if(validate_list_of_elements(chunk_of_line) != ZERO)
+					{	
+						_ERROR(INVALID_LIST);
+						_ERROR("File " );
+						_ERROR("Line ");
+						error_counter++;
+						in_error = YES;
+					}
+					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
+					if(in_error == NO)
+					{
+						if (add_to_image(DATA_TABLE_TYPE, "????", "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						{
+							if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
+							{
+								_DEBUG("New data symbol registred");
+							}
+							else
+							{
+								_ERROR(CANT_ADD_TO_SYMTABLE);
+								_ERROR("File " );
+								_ERROR("Line " );
+								error_counter++;
+							}
+						}
+						else
+						{
+							_ERROR(CANT_ADD_TO_DATA_IMAGE);
+							_ERROR("File " );
+							_ERROR("Line " );
+							error_counter++;
+						}
+					}
 				}
 				/* string directive label case */
 				else if (is_string(chunk_of_line))
@@ -91,7 +126,6 @@ int do_first_run(FILE * fd_input)
 							_ERROR(CANT_FIND_STRING);
 							_ERROR("File " );
 							_ERROR("Line ");
-							_ERROR(line)
 							error_counter++;
 							in_error = YES;
 							break;
@@ -107,10 +141,31 @@ int do_first_run(FILE * fd_input)
 						}	
 					}
 
+					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
-						add_to_symbol_tabledd(label_name, ????, NONE, NONE);
-						
-
+					{
+						if (add_to_image(DATA_TABLE_TYPE, "????", "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						{
+							if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
+							{
+								_DEBUG("New data symbol registred");
+							}
+							else
+							{
+								_ERROR(CANT_ADD_TO_SYMTABLE);
+								_ERROR("File " );
+								_ERROR("Line " );
+								error_counter++;
+							}
+						}
+						else
+						{
+							_ERROR(CANT_ADD_TO_DATA_IMAGE);
+							_ERROR("File " );
+							_ERROR("Line " );
+							error_counter++;
+						}
+					}
 				}
 				/* entry directive label case */
 				else if (is_entry(chunk_of_line))
@@ -120,19 +175,30 @@ int do_first_run(FILE * fd_input)
 				/* extern directive label case */
 				else if (is_extern(chunk_of_line))
 				{
-					add_to_symbol_table(label_name, ????, NONE, EXTERNAL);	
+					add_to_symbol_table(label_name, "????", NONE, EXTERNAL); /* NOT SURE IF LEGAL SCENARIO */
 				}
 				/* invalid syntax */
 				else
 				{
-
+					_ERROR(INVALID_LABEL_DIRECTIVE);
+					_ERROR("File " );
+					_ERROR("Line " );
+					error_counter++;
 				}
 			}
 			else /* label instruction case */
 			{
 
 			}
-	}
+		}
+		else /* not a label - need to check if extern */
+		{
+			if (is_extern(chunk_of_line))
+			{
+				add_to_symbol_table(label_name, "????", NONE, EXTERNAL);
+			}
+		}
+	} /* end of while loop - line */
 	
 	return error_counter;
 }
