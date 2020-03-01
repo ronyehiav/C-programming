@@ -188,7 +188,45 @@ int do_first_run(FILE * fd_input)
 			}
 			else /* label instruction case */
 			{
+				/* the rest of the line in chunk_of_line */
+				chunk_of_line = strtok(NULL, NULL);
 
+				if(validate_instruction(chunk_of_line) != ZERO)
+				{
+					_ERROR(INVALID_INSTRUCTION);
+					_ERROR("File " );
+					_ERROR("Line " );
+					error_counter++;
+					IN_ERROR = YES;
+				}
+				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
+				if(in_error == NO)
+				{
+					/* NEED TO UNDERSTAND WHAT I DO HERE
+					if (add_to_image(INSTRUCTION_TABLE_TYPE, "????", "code") == ZERO) 
+					{
+						if (add_to_symbol_tabled(label_name, "????", NONE, NONE) == ZERO)
+						{
+							_DEBUG("New data symbol registred");
+						}
+						else
+						{
+							_ERROR(CANT_ADD_TO_SYMTABLE);
+							_ERROR("File " );
+							_ERROR("Line " );
+							error_counter++;
+						}
+					}
+					else
+					{
+						_ERROR(CANT_ADD_TO_DATA_IMAGE);
+						_ERROR("File " );
+						_ERROR("Line " );
+						error_counter++;
+					}
+					*/
+				}
+				
 			}
 		}
 		else /* not a label - need to check if extern */
