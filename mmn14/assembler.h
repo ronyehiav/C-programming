@@ -63,6 +63,7 @@ int is_valid_label(char []);
 int is_a_register(char []);
 int is_an_operation_name(char []);
 int validate_list_of_elements(char []);
+void remove_spaces(char *);
 
 
 /* opcodes_table declaration */

@@ -75,6 +75,9 @@ int do_first_run(FILE * fd_input)
 					/* the rest of the line in chunk_of_line */
 					chunk_of_line = strtok(NULL, NULL);
 					
+					/* remove spaces from the list */
+					remove_spaces(chunk_of_line);
+
 					if(validate_list_of_elements(chunk_of_line) <= ZERO)
 					{	
 						_ERROR(INVALID_LIST);

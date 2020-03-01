@@ -142,3 +142,28 @@ int validate_list_of_elements(char str[])
 	}
 	return ++elements_found; /* +1 for the last element between the last ',' and the '\0' */
 }
+
+/* remove spaces from the given string */
+void remove_spaces(char *  str_trimmed)
+{
+	/* declare initialize and copy str_trimmed into str_untrimmed */
+	char * str_untrimmed = (char *) malloc(strlen(str_trimmed) + 1);
+	char * str_head_pointer = str_untrimmed;
+	strcpy(str_untrimmed, str_trimmed);
+
+	while (*str_untrimmed != '\0')
+	{
+		if(!isspace(*str_untrimmed))
+		{
+			*str_trimmed = *str_untrimmed;
+			str_trimmed++;
+		}
+		str_untrimmed++;
+	}
+	*str_trimmed = '\0';
+	str_untrimmed = str_head_pointer;
+
+	/* the backed up str is kept into sre_untrimmed
+	   if need to be use in future implementation, need to remove the free */
+	free(&*str_untrimmed);
+}
