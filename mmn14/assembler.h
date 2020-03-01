@@ -53,6 +53,16 @@ void do_assembler(FILE *);
 int add_to_image(image_type, int, char *);
 void free_image(image_type);
 int do_first_run(FILE *);
+int is_data(char []);
+int is_string(char []);
+int is_entry(char []);
+int is_extern(char []);
+int is_directive(char []);
+int is_label(char []);
+int is_valid_label(char []);
+int is_a_register(char []);
+int is_an_operation_name(char []);
+int validate_list_of_elements(char []);
 
 
 /* opcodes_table declaration */

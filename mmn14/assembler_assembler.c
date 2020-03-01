@@ -52,6 +52,14 @@ int do_first_run(FILE * fd_input)
 		{
 			char * label;
 			
+			/* validate label validity or go to next line */
+			if(!is_valid_label(chunk_of_line))
+				_ERROR(INVALID_LABEL_NAME);
+				_ERROR("File ");
+				_ERROR("Line ");
+				error_counter++;
+				break;
+
 			/* keep the label name in label_name */
 			label_name = chunk_of_line;
 
@@ -67,7 +75,7 @@ int do_first_run(FILE * fd_input)
 					/* the rest of the line in chunk_of_line */
 					chunk_of_line = strtok(NULL, NULL);
 					
-					if(validate_list_of_elements(chunk_of_line) != ZERO)
+					if(validate_list_of_elements(chunk_of_line) <= ZERO)
 					{	
 						_ERROR(INVALID_LIST);
 						_ERROR("File " );
