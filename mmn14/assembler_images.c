@@ -19,7 +19,7 @@ int add_to_image(image_type type, int address, char * code)
 
 	/* initialization of the new_entry */
 	new_entry->address = address;
-	new_entry->code = code;
+	new_entry->code = new_code;
 	new_entry->next = NULL;
 	
 	
@@ -63,6 +63,7 @@ void free_image(image_type type)
 		{
 			entry = instruction_image;
 			instruction_image = instruction_image->next;
+			free(entry->code);
 			free(entry);
 		}
 	}
@@ -72,6 +73,7 @@ void free_image(image_type type)
 		{
 			entry = data_image;
 			data_image = data_image->next;
+			free(entry->code);
 			free(entry);
 		}
 	}
