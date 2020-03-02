@@ -30,17 +30,21 @@ int add_to_symbol_table(char * name, int value, symbol_type type, symbol_locatio
 {
 	/* new symbol dynamic allocation */
 	symbol * new_symbol = (symbol *)malloc(sizeof(symbol));
+	char * new_name = (char *)malloc(sizeof(char) * strlen(name));
 
 	_DEBUG("-->> add_to_symbol_table");
 
-	if (!new_symbol) 
+	if ((!(new_symbol)) || (!(new_name))) 
 	{
 		_ERROR(ALLOCATION_ERROR);
 		return -1;
 	}
 	
+	/* keeping name into a dynamicaly allocated array of char */
+	strcpy(new_name, name);
+
 	/* initialization of the new_symbol */
-	new_symbol->name = name;
+	new_symbol->name = new_name;
 	new_symbol->value = value;
 	new_symbol->type = type;
 	new_symbol->location = location;
@@ -102,6 +106,7 @@ void free_symbol_table()
 	{
 		sym = symbol_table;
 		symbol_table = symbol_table->next;
+		free(sym->name);
 		free(sym);
 	}
 	_DEBUG("<<-- free_symbol_table");

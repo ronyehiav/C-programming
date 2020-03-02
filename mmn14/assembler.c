@@ -45,15 +45,9 @@ int main(int argc, char * argv[])
 		/* start assembling this file */
 		do_assembler(fd_input);
 
-
-		print_image(DATA_TABLE_TYPE);
 		/* close file */
 		fclose(fd_input);
 	}	
-
-
-	/* free the dynamically allocated memory */
-	free_symbol_table();
 
 	return 0;
 }

@@ -4,32 +4,36 @@
 int is_data(char str[])
 {
 	if (strcmp(str, DATA_DIRECTIVE_TEXT))
-		return 1;
-	return 0;
+		return 0;
+	return 1;
 }
 
 /* is_string checks if the string given as parameter is from directive type string */
 int is_string(char str[])
 {
 	if (strcmp(str, STRING_DIRECTIVE_TEXT))
-		return 1;
-	return 0;
+		return 0;
+	return 1;
 }
 
 /* is_entry checks if the string given as parameter is from directive type entry */
 int is_entry(char str[])
 {
 	if (strcmp(str, ENTRY_DIRECTIVE_TEXT))
-		return 1;
-	return 0;
+		return 0;
+	return 1;
 }
 
 /* is_extern checks if the string given as parameter is from directive type external */
 int is_extern(char str[])
 {
+	_DEBUG(str);
+	_DEBUG(EXTERN_DIRECTIVE_TEXT);
+	printf("%d \n", strcmp(str, EXTERN_DIRECTIVE_TEXT));
+
 	if (strcmp(str, EXTERN_DIRECTIVE_TEXT))
-		return 1;
-	return 0;
+		return 0;
+	return 1;
 }
 
 /* is_directive checks if the string given as parameter is from any directive type */

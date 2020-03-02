@@ -84,7 +84,7 @@ void free_image(image_type type)
 			free(entry);
 		}
 	}
-	_DEBUG("<<-- free_symbol_table");
+	_DEBUG("<<-- free_image");
 }
 
 /* print the symbol table */

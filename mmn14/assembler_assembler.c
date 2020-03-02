@@ -11,9 +11,10 @@ void do_assembler(FILE * fd_input)
 
 	_DEBUG("-->> do_assembler");
 
-	/* images (re)initialization */
-	 instruction_image = NULL;
-	 data_image = NULL;
+	/* images/table (re)initialization */
+	instruction_image = NULL;
+	data_image = NULL;
+	symbol_table = NULL;
 
 	/* counters (re)initialization */
 	IC = 100; /* instruction counter */
@@ -22,11 +23,14 @@ void do_assembler(FILE * fd_input)
 	/* do run 1 run 2 */
 	error_counter += do_first_run(fd_input);
 
-	/* print into files */
+	print_symbol_table();
 
-	/* free images */
+	/* print into files */
+	
+	/* free images/table */
 	free_image(INSTRUCTION_TABLE_TYPE);
 	free_image(DATA_TABLE_TYPE);
+	free_symbol_table();
 
 	_DEBUG("<<-- do_assembler");
 }
@@ -38,7 +42,7 @@ void do_assembler(FILE * fd_input)
 */
 int do_first_run(FILE * fd_input)
 {
-	int error_counter = 0;
+	int error_counter = 0, i = 0;
 	int in_error;
 	char line[MAX_LINE_LENGTH];
 	char * chunk_of_line;
@@ -48,6 +52,17 @@ int do_first_run(FILE * fd_input)
 	/* read the file line by line entil EOF */
 	while(fgets(line, MAX_LINE_LENGTH, fd_input))
 	{
+		/* remove last character if it is new line */
+		while(line[i] != '\0')
+		{
+			if (line[i] == '\n')
+			{
+				line[i] = '\0';
+				break;
+			}
+			i++;
+		}
+ 
 		/* in_error allow us to know if doing anything with line or not */
 		in_error = NO;
 
@@ -55,7 +70,7 @@ int do_first_run(FILE * fd_input)
 		chunk_of_line = strtok(line, " ");
 
 		/* label case */
-		if (is_label(chunk_of_line))
+		if (is_label(chunk_of_line)) /* in this case, chunk_of_line is the first word */
 		{
 			char * label_name;
 			

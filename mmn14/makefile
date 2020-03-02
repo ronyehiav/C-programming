@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -ansi -pedantic -g 
+CFLAGS=-Wall -ansi -pedantic -g -g3 
 
 
 assembler: assembler.c assembler.h error.h assembler_logging.o assembler_tables.o assembler_assembler.o assembler_images.o assembler_io_utils.o
