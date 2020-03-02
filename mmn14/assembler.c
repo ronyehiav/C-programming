@@ -7,7 +7,7 @@ int main(int argc, char * argv[])
 	/* validate minimum number of arguments */
 	if (argc < MIN_NUMBER_OF_ARGS)
 	{
-		_ERROR(INVALID_ARGS_NUM);
+		_ERROR(1, INVALID_ARGS_NUM);
 		return 1;
 	}
 
@@ -23,9 +23,7 @@ int main(int argc, char * argv[])
 		/* open file */
 		if (!(fd_input = fopen(current_filename, "r")))
 		{
-			_ERROR(FILE_OPEN);
-			_ERROR(argv[file_index]);
-			_ERROR(strerror(errno));
+			_ERROR(3, FILE_OPEN, current_filename, strerror(errno));
 			return 2;
 		}
 		

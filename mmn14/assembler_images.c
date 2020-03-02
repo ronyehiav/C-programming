@@ -13,7 +13,7 @@ int add_to_image(image_type type, int address, char * code)
 
 	if ((!new_entry) || (!new_code))
 	{
-		_ERROR(ALLOCATION_ERROR);
+		_ERROR(1, ALLOCATION_ERROR);
 		return -1;
 	}
 
@@ -86,21 +86,20 @@ void print_image(image_type type)
 	if (type == INSTRUCTION_TABLE_TYPE)
 	{
 		entry = instruction_image;
-        	_DEBUG(PRINT_INSTRUCTION_TABLE);
+        	_DEBUG(1, PRINT_INSTRUCTION_TABLE);
 	}
 	else /* (type == DATA_TABLE_TYPE) */
 	{
 		entry = data_image; 
-		_DEBUG(PRINT_CODE_IMAGE);
+		_DEBUG(1, PRINT_CODE_IMAGE);
 	}
 
-        _DEBUG(LINE);
+        _DEBUG(1, LINE);
 	
 	while (entry != NULL)
 	{
 		sprintf(buffer, "%d", entry->address);
-		_DEBUG(buffer);
-		_DEBUG(entry->code);
-		_DEBUG(LINE);
+		_DEBUG(2, buffer, entry->code);
+		_DEBUG(1, LINE);
 	}
 }

@@ -27,13 +27,39 @@ void _WARNING(int num_of_args, ... )
 }
 
 /* print the given string as DEBUG to STDOUT */
-void _DEBUG(char str[])
+void _DEBUG(int num_of_args, ... )
 {
-	_message("DEBUG - ", str);
+	va_list valist;
+	char buffer[MAX_LINE_LENGTH] = {0};
+	int i;
+	
+	va_start(valist, num_of_args);
+
+	for (i = 0; i < num_of_args; i++)
+	{
+		strcat(buffer, va_arg(valist, char *));
+		strcat(buffer, " ");
+	}
+	va_end(valist);
+
+	_message("DEBUG - ", buffer);
 }
 
 /* print the given string as ERROR to STDOUT */
-void _ERROR(char str[])
+void _ERROR(int num_of_args, ... )
 {
-	_message("ERROR - ", str);
+	va_list valist;
+	char buffer[MAX_LINE_LENGTH] = {0};
+	int i;
+	
+	va_start(valist, num_of_args);
+
+	for (i = 0; i < num_of_args; i++)
+	{
+		strcat(buffer, va_arg(valist, char *));
+		strcat(buffer, " ");
+	}
+	va_end(valist);
+
+	_message("ERROR - ", buffer);
 }

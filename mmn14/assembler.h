@@ -57,8 +57,8 @@ typedef struct image_entry
 /* function prototype */
 void _message(char [],char []);
 void _WARNING(int, ...);
-void _ERROR(char []);
-void _DEBUG(char []);
+void _ERROR(int, ...);
+void _DEBUG(int, ...);
 int add_to_symbol_table(char *, int, symbol_type, symbol_location);
 void print_symbol_table();
 void free_symbol_table();
@@ -101,3 +101,6 @@ int DC; /* data counter */
 /* FILE descriptor an filename of inputed files */
 FILE * fd_input;
 char * current_filename;
+
+/* will be used as a buffer for line number translation from int to array */
+char line_number_buffer[LINE_NUM_BUF_SIZE];

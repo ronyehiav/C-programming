@@ -34,7 +34,7 @@ int add_to_symbol_table(char * name, int value, symbol_type type, symbol_locatio
 
 	if ((!(new_symbol)) || (!(new_name))) 
 	{
-		_ERROR(ALLOCATION_ERROR);
+		_ERROR(1, ALLOCATION_ERROR);
 		return -1;
 	}
 	
@@ -65,21 +65,22 @@ void print_symbol_table()
 	symbol * sym = symbol_table;
 	char buffer[MAX_SYMBOL_LENGTH +1]; /* +1 for \0 - value of the end of array of char */
 
-	_DEBUG(PRINT_SYM_TABLE);
-	_DEBUG(LINE);
+	_DEBUG(1, LINE);
+	_DEBUG(1, PRINT_SYM_TABLE);
+	_DEBUG(1, LINE);
 	while (sym != NULL)
 	{
-		_DEBUG(sym->name);
+		_DEBUG(2, "Name:\t\t", sym->name);
 
 		sprintf(buffer, "%d", sym->value);
-		_DEBUG(buffer);
+		_DEBUG(2, "Value:\t\t", buffer);
 
 		sprintf(buffer, "%d", sym->type);
-		_DEBUG(buffer);
+		_DEBUG(2, "Type:\t\t", buffer);
 
 		sprintf(buffer, "%d", sym->location);
-		_DEBUG(buffer);
-		_DEBUG(LINE);
+		_DEBUG(2, "Location:\t", buffer);
+		_DEBUG(1, LINE);
 
 		sym = sym->next;
 	}

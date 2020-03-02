@@ -76,9 +76,8 @@ int do_first_run(FILE * fd_input)
 			/* validate label validity or go to next line */
 			if(!is_valid_label(chunk_of_line))
 			{
-				_ERROR(INVALID_LABEL_NAME);
-				_ERROR("File ");
-				_ERROR("Line ");
+				sprintf(line_number_buffer, "%d", current_line_number);
+				_ERROR(5, INVALID_LABEL_NAME, "-", current_filename, ":", line_number_buffer );
 				error_counter++;
 				in_error = YES;
 			}
@@ -105,9 +104,8 @@ int do_first_run(FILE * fd_input)
 
 					if((number_of_elements = validate_list_of_elements(chunk_of_line)) <= ZERO)
 					{	
-						_ERROR(INVALID_LIST_DATA);
-						_ERROR("File " );
-						_ERROR("Line ");
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_ERROR(5, INVALID_LIST_DATA, "-", current_filename, ":", line_number_buffer );
 						error_counter++;
 						in_error = YES;
 					}
@@ -118,22 +116,20 @@ int do_first_run(FILE * fd_input)
 						{
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
-								_DEBUG("New data symbol registred");
+								_DEBUG(2, "New data symbol registred", label_name);
 								DC += number_of_elements;
 							}
 							else
 							{
-								_ERROR(CANT_ADD_TO_SYMTABLE);
-								_ERROR("File " );
-								_ERROR("Line " );
+								sprintf(line_number_buffer, "%d", current_line_number);
+								_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
 								error_counter++;
 							}
 						}
 						else
 						{
-							_ERROR(CANT_ADD_TO_DATA_IMAGE);
-							_ERROR("File " );
-							_ERROR("Line " );
+							sprintf(line_number_buffer, "%d", current_line_number);
+							_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
 							error_counter++;
 						}
 					}
@@ -165,10 +161,7 @@ int do_first_run(FILE * fd_input)
 						/* what comes after the last double quote will be ignored */
 						else if ((start_of_string) && (end_of_string))
 						{
-							char line_number_buffer[LINE_NUM_BUF_SIZE] = {0};
-							
 							sprintf(line_number_buffer, "%d", current_line_number);
-
 							_WARNING(5, TEXT_AFTER_END_OF_STR_NOT_RELEVANT, "-", current_filename, ":", line_number_buffer);
 							break;
 						}	
@@ -176,9 +169,8 @@ int do_first_run(FILE * fd_input)
 					/* invalid line - cant find a string between double quotes */
 					if ((!(start_of_string)) || (!(end_of_string))) 
 					{
-						_ERROR(CANT_FIND_STRING);
-						_ERROR("File " );
-						_ERROR("Line ");
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_ERROR(5, CANT_FIND_STRING, "-", current_filename, ":", line_number_buffer );
 						error_counter++;
 						in_error = YES;
 					}
@@ -191,21 +183,19 @@ int do_first_run(FILE * fd_input)
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
 								DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
-								_DEBUG("New data symbol registred");
+								_DEBUG(2, "New data symbol registred", label_name);
 							}
 							else
 							{
-								_ERROR(CANT_ADD_TO_SYMTABLE);
-								_ERROR("File " );
-								_ERROR("Line " );
+								sprintf(line_number_buffer, "%d", current_line_number);
+								_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
 								error_counter++;
 							}
 						}
 						else
 						{
-							_ERROR(CANT_ADD_TO_DATA_IMAGE);
-							_ERROR("File " );
-							_ERROR("Line " );
+							sprintf(line_number_buffer, "%d", current_line_number);
+							_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
 							error_counter++;
 						}
 					}
@@ -225,23 +215,21 @@ int do_first_run(FILE * fd_input)
 					{
 						if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
 						{
-							_DEBUG("New external symbol registered");
+							_DEBUG(2, "New external symbol registered", chunk_of_line);
 						}
 					}
 					else
 					{
-						_ERROR(ALREADY_INITIALIZED_LABEL);
-						_ERROR("File ");
-						_ERROR("Line ");
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_ERROR(5, ALREADY_INITIALIZED_LABEL, "-", current_filename, ":", line_number_buffer );
 						error_counter++;
 					}
 				}
 				/* invalid syntax */
 				else
 				{
-					_ERROR(INVALID_LABEL_DIRECTIVE);
-					_ERROR("File " );
-					_ERROR("Line " );
+					sprintf(line_number_buffer, "%d", current_line_number);
+					 _ERROR(5, INVALID_LABEL_DIRECTIVE, "-", current_filename, ":", line_number_buffer );
 					error_counter++;
 				}
 			}
@@ -249,9 +237,8 @@ int do_first_run(FILE * fd_input)
 			{
 				if((instruction_words = count_instruction_words(chunk_of_line)) < ZERO)
 				{
-					_ERROR(INVALID_INSTRUCTION);
-					_ERROR("File " );
-					_ERROR("Line " );
+					sprintf(line_number_buffer, "%d", current_line_number);
+					 _ERROR(5, INVALID_INSTRUCTION, "-", current_filename, ":", line_number_buffer );
 					error_counter++;
 					in_error = YES;
 				}
@@ -261,13 +248,12 @@ int do_first_run(FILE * fd_input)
 					if (add_to_symbol_table(label_name, IC, CODE, UNKNOWN) == ZERO)
 					{
 						IC += instruction_words;
-						_DEBUG("New data symbol registred");
+						_DEBUG(2, "New data symbol registred", label_name);
 					}
 					else
 					{
-						_ERROR(CANT_ADD_TO_SYMTABLE);
-						_ERROR("File " );
-						_ERROR("Line " );
+						sprintf(line_number_buffer, "%d", current_line_number);
+						 _ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
 						error_counter++;
 					}
 				}
@@ -283,14 +269,13 @@ int do_first_run(FILE * fd_input)
 			{
 				if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
 				{
-					_DEBUG("New external symbol registered");
+					_DEBUG(2, "New external symbol registered", chunk_of_line);
 				}
 			}
 			else
 			{
-				_ERROR(ALREADY_INITIALIZED_LABEL);
-				_ERROR("File ");
-				_ERROR("Line ");
+				sprintf(line_number_buffer, "%d", current_line_number);
+				 _ERROR(5, ALREADY_INITIALIZED_LABEL, "-", current_filename, ":", line_number_buffer );
 				error_counter++;
 			}
 		}
@@ -300,9 +285,8 @@ int do_first_run(FILE * fd_input)
 		}
 		else /* not a valid start of line */
 		{
-			_ERROR(LINE_NOT_UNDERSTANDABLE);
-			_ERROR("File ");
-			_ERROR("Line ");
+			sprintf(line_number_buffer, "%d", current_line_number);
+			 _ERROR(5, LINE_NOT_UNDERSTANDABLE, "-", current_filename, ":", line_number_buffer );
 			error_counter++;
 		}
 	} /* end of while loop - line */
