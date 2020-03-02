@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <errno.h>
 #include "error.h"
 
@@ -52,7 +53,7 @@ typedef struct image_entry
 
 /* function prototype */
 void _message(char [],char []);
-void _WARNING(char []);
+void _WARNING(int, ...);
 void _ERROR(char []);
 void _DEBUG(char []);
 int add_to_symbol_table(char *, int, symbol_type, symbol_location);
