@@ -279,7 +279,132 @@ int do_first_run(FILE * fd_input)
 				error_counter++;
 			}
 		}
-		else if ((instruction_words = count_instruction_words(chunk_of_line)) >= ZERO)
+		else if(is_directive(chunk_of_line))
+		{
+			/* data directive case */
+			if (is_data(chunk_of_line))
+			{
+				int number_of_elements = 0;
+
+				/* the rest of the line in chunk_of_line */
+				chunk_of_line = strtok(NULL, "\0");
+				
+				/* remove spaces from the list */
+				remove_spaces(chunk_of_line);
+
+				if((number_of_elements = validate_list_of_elements(chunk_of_line)) <= ZERO)
+				{	
+					sprintf(line_number_buffer, "%d", current_line_number);
+					_ERROR(5, INVALID_LIST_DATA, "-", current_filename, ":", line_number_buffer );
+					error_counter++;
+					in_error = YES;
+				}
+				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
+				if(in_error == NO)
+				{
+					if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+					{
+						DC += number_of_elements;
+					}
+					else
+					{
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
+						error_counter++;
+					}
+				}
+			}
+			/* string directive case */
+			else if (is_string(chunk_of_line))
+			{
+				int i;
+				char * start_of_string = NULL, * end_of_string = NULL;
+
+				/* the rest of the line in chunk_of_line */
+				chunk_of_line = strtok(NULL, "\0");
+
+				if (chunk_of_line[strlen(chunk_of_line) -1] == '\n')
+					chunk_of_line[strlen(chunk_of_line) -1] = '\0';
+
+				/* iterating over every character */
+				for(i = 0 ; i < strlen(chunk_of_line) ; i++)
+				{
+					/* defining beginning and end of the string */
+					if (chunk_of_line[i] == '"')
+					{
+						if (!start_of_string)
+							start_of_string = &chunk_of_line[i];
+						else
+							end_of_string = &chunk_of_line[i];
+					}
+					
+					/* what comes after the last double quote will be ignored */
+					else if ((start_of_string) && (end_of_string))
+					{
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_WARNING(5, TEXT_AFTER_END_OF_STR_NOT_RELEVANT, "-", current_filename, ":", line_number_buffer);
+						break;
+					}	
+				}
+				/* invalid line - cant find a string between double quotes */
+				if ((!(start_of_string)) || (!(end_of_string))) 
+				{
+					sprintf(line_number_buffer, "%d", current_line_number);
+					_ERROR(5, CANT_FIND_STRING, "-", current_filename, ":", line_number_buffer );
+					error_counter++;
+					in_error = YES;
+				}
+
+				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
+				if(in_error == NO)
+				{
+					if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+					{
+						DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
+					}
+					else
+					{
+						sprintf(line_number_buffer, "%d", current_line_number);
+						_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
+						error_counter++;
+					}
+				}
+			}
+			/* entry directive case - nothing to do for now */
+			else if (is_entry(chunk_of_line))
+			{
+				; /* nothing to do for first run, but need to take care of it in second run */
+			}
+			/* extern directive label case - need to warn the user (in second run) about not taking the label into consideration */
+			else if (is_extern(chunk_of_line))
+			{
+				/* next word is label name */
+				chunk_of_line = strtok(NULL, " ");
+
+				if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
+				{
+					if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
+					{
+						_DEBUG(2, "New external symbol registered", chunk_of_line);
+					}
+				}
+				else
+				{
+					sprintf(line_number_buffer, "%d", current_line_number);
+					_ERROR(5, ALREADY_INITIALIZED_LABEL, "-", current_filename, ":", line_number_buffer );
+					error_counter++;
+				}
+			}
+
+
+
+
+
+
+
+
+		}
+		else if ((instruction_words = count_instruction_words(chunk_of_line)) >= ZERO) /* instruction - just add the number of words to keep in memory */
 		{
 			IC += instruction_words;
 		}
