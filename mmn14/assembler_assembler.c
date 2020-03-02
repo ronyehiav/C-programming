@@ -41,6 +41,7 @@ int do_first_run(FILE * fd_input)
 	int error_counter = 0, i = 0;
 	int in_error;
 	int instruction_words = 0;
+	int current_line_number = 0;
 	char line[MAX_LINE_LENGTH];
 	char * chunk_of_line;
 
@@ -60,6 +61,9 @@ int do_first_run(FILE * fd_input)
  
 		/* in_error allow us to know if doing anything with line or not */
 		in_error = NO;
+		
+		/* new line - increasing line number by 1 */			
+		current_line_number++;
 
 		/* the first word of the line in chunk_of_line */
 		chunk_of_line = strtok(line, " ");
@@ -161,9 +165,11 @@ int do_first_run(FILE * fd_input)
 						/* what comes after the last double quote will be ignored */
 						else if ((start_of_string) && (end_of_string))
 						{
-							_WARNING(1, TEXT_AFTER_END_OF_STR_NOT_RELEVANT);
-							_WARNING(1, "File ");
-							_WARNING(1, "Line ");
+							char line_number_buffer[LINE_NUM_BUF_SIZE] = {0};
+							
+							sprintf(line_number_buffer, "%d", current_line_number);
+
+							_WARNING(5, TEXT_AFTER_END_OF_STR_NOT_RELEVANT, "-", current_filename, ":", line_number_buffer);
 							break;
 						}	
 					}

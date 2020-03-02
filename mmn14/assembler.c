@@ -2,7 +2,6 @@
 
 int main(int argc, char * argv[])
 {
-	FILE * fd_input;
 	int file_index;
 
 	/* validate minimum number of arguments */
@@ -16,19 +15,25 @@ int main(int argc, char * argv[])
 	/* iterate over every argument */
 	for (file_index = 1; file_index < argc; file_index++)
 	{
+		/* adding the ".as" suffix to the argument */
+		current_filename = (char *)malloc((strlen(argv[file_index]) + IN_FILE_SUFFIX_SIZE) * sizeof(char)); 
+		strcat(current_filename, argv[file_index]);
+		strcat(current_filename, IN_FILE_SUFFIX);
+
 		/* open file */
-		if (!(fd_input = fopen(argv[file_index], "r")))
+		if (!(fd_input = fopen(current_filename, "r")))
 		{
 			_ERROR(FILE_OPEN);
 			_ERROR(argv[file_index]);
 			_ERROR(strerror(errno));
 			return 2;
 		}
-
+		
 		/* start assembling this file */
 		do_assembler(fd_input);
 
-		/* close file */
+		/* free dynamically allocated curretn_filename and close file */
+		free(current_filename);
 		fclose(fd_input);
 	}	
 

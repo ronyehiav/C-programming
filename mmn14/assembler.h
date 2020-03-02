@@ -12,6 +12,9 @@
 #define MAX_SYMBOL_LENGTH 31
 #define MAX_LINE_LENGTH 80
 #define MAX_ADDRESS_SIZE 10
+#define IN_FILE_SUFFIX_SIZE 3
+#define IN_FILE_SUFFIX ".as"
+#define LINE_NUM_BUF_SIZE 6
 #define ZERO 0
 #define CODE_SIZE 2
 #define DATA_DIRECTIVE_TEXT ".data"
@@ -94,3 +97,7 @@ image_entry * data_image;
 /* counters declaration */
 int IC; /* instruction counter */
 int DC; /* data counter */
+
+/* FILE descriptor an filename of inputed files */
+FILE * fd_input;
+char * current_filename;
