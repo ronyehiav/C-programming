@@ -65,7 +65,7 @@ int is_label(char str[])
 int is_valid_label(char str[])
 {
 	/* trunckating the last character (':') to keep the label itself - if any*/
-	if (str[strlen(str)-1] == ':')
+	if ((str[strlen(str)-1] == ':') || (str[strlen(str)-1] == '\n'))
 		str[strlen(str)-1] = '\0';
 
 	/* valid label is not already initialized */
@@ -184,7 +184,7 @@ int count_instruction_words(char str[])
 	{
 		if (strcmp(opcodes_table[i].name, chunk_of_line) == ZERO)
 		{
-			num_of_operand_expected = opcodes_table[i].operand_number_required;
+			num_of_operand_expected = opcodes_table[i].operand_number_required +1; /* +1 for the operation used */
 			break;
 		}
 	}

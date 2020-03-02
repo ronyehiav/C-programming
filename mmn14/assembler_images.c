@@ -11,8 +11,6 @@ int add_to_image(image_type type, int address, char * code)
 	image_entry * new_entry = (image_entry *)malloc(sizeof(image_entry));
 	char * new_code = (char *)malloc(sizeof(char) * CODE_SIZE);
 
-	_DEBUG("-->> add_to_image");
-
 	if ((!new_entry) || (!new_code))
 	{
 		_ERROR(ALLOCATION_ERROR);
@@ -38,8 +36,6 @@ int add_to_image(image_type type, int address, char * code)
 				p = p->next;
 			p->next = new_entry;
 		}
-
-		_DEBUG("Added new image entry in instruction image");
 	} 
 	else /* (type == DATA_TABLE_TYPE) */
 	{
@@ -52,11 +48,7 @@ int add_to_image(image_type type, int address, char * code)
 				p = p->next;
 			p->next = new_entry;
 		}
-
-		_DEBUG("Added new image entry in data image");
 	}
-
-	_DEBUG("<<-- add_to_image");
 	return 0;
 }
 
@@ -64,8 +56,6 @@ int add_to_image(image_type type, int address, char * code)
 void free_image(image_type type)
 {
 	image_entry * entry;
-
-	_DEBUG("-->> free_image");
 
 	if (type == INSTRUCTION_TABLE_TYPE)
 	{
@@ -85,7 +75,6 @@ void free_image(image_type type)
 			free(entry);
 		}
 	}
-	_DEBUG("<<-- free_image");
 }
 
 /* print the symbol table */
@@ -94,8 +83,6 @@ void print_image(image_type type)
         image_entry * entry;
         char buffer[MAX_ADDRESS_SIZE]; 
 
-	_DEBUG("-->> print_image");
-	
 	if (type == INSTRUCTION_TABLE_TYPE)
 	{
 		entry = instruction_image;
@@ -116,6 +103,4 @@ void print_image(image_type type)
 		_DEBUG(entry->code);
 		_DEBUG(LINE);
 	}
-
-        _DEBUG("<<-- print_image");
 }

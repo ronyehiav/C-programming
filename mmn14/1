@@ -1,9 +1,10 @@
 .extern eliott
-LABEL1: .data 1
-LABEL2: .string "a"
+DATA1: .data 1,2,43,-21,+222
+DATA2: .string "abcde"
 OTHERLABEL: .entry OTHEROTHERLABEL
-LABEL3: .extern BLABLA
-LABEL4: add #1,r0
-LABEL5: .data +2 
-LABEL6: .data -2 
-LABEL6: .data -2 
+DATA3: .extern BLABLA
+INSTRUCTION1: add #1,r0
+DATA4: .data +2 
+DATA5: .data -2 
+add #1,r0
+INSTRUCTION2: add #1,r0

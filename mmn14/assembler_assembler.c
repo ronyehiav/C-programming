@@ -9,8 +9,6 @@ void do_assembler(FILE * fd_input)
 {
 	int error_counter = 0;
 
-	_DEBUG("-->> do_assembler");
-
 	/* images/table (re)initialization */
 	instruction_image = NULL;
 	data_image = NULL;
@@ -31,8 +29,6 @@ void do_assembler(FILE * fd_input)
 	free_image(INSTRUCTION_TABLE_TYPE);
 	free_image(DATA_TABLE_TYPE);
 	free_symbol_table();
-
-	_DEBUG("<<-- do_assembler");
 }
 
 
@@ -44,10 +40,9 @@ int do_first_run(FILE * fd_input)
 {
 	int error_counter = 0, i = 0;
 	int in_error;
+	int instruction_words = 0;
 	char line[MAX_LINE_LENGTH];
 	char * chunk_of_line;
-
-	_DEBUG("-->> do_first_run");
 
 	/* read the file line by line entil EOF */
 	while(fgets(line, MAX_LINE_LENGTH, fd_input))
@@ -81,7 +76,7 @@ int do_first_run(FILE * fd_input)
 				_ERROR("File ");
 				_ERROR("Line ");
 				error_counter++;
-				break;
+				in_error = YES;
 			}
 
 			/* keep the label name in label_name */
@@ -148,6 +143,9 @@ int do_first_run(FILE * fd_input)
 					/* the rest of the line in chunk_of_line */
 					chunk_of_line = strtok(NULL, "\0");
 
+					if (chunk_of_line[strlen(chunk_of_line) -1] == '\n')
+						chunk_of_line[strlen(chunk_of_line) -1] = '\0';
+
 					/* iterating over every character */
 					for(i = 0 ; i < strlen(chunk_of_line) ; i++)
 					{
@@ -186,7 +184,7 @@ int do_first_run(FILE * fd_input)
 						{
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
-								DC += (end_of_string - start_of_string +1); /* +1 fpr the '\0' to be added */
+								DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
 								_DEBUG("New data symbol registred");
 							}
 							else
@@ -206,15 +204,31 @@ int do_first_run(FILE * fd_input)
 						}
 					}
 				}
-				/* entry directive label case */
+				/* entry directive label case - need to warn the user (in second run) about not taking the label into consideration */
 				else if (is_entry(chunk_of_line))
 				{
-					; /* nothing to do for now */
+					; /* nothing to do for first run, but need to take care of it in second run */
 				}
-				/* extern directive label case */
+				/* extern directive label case - need to warn the user (in second run) about not taking the label into consideration */
 				else if (is_extern(chunk_of_line))
 				{
-					add_to_symbol_table(label_name, ZERO, NONE, EXTERNAL); /* NOT SURE IF LEGAL SCENARIO */
+					/* next word is label name */
+					chunk_of_line = strtok(NULL, " ");
+
+					if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
+					{
+						if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
+						{
+							_DEBUG("New external symbol registered");
+						}
+					}
+					else
+					{
+						_ERROR(ALREADY_INITIALIZED_LABEL);
+						_ERROR("File ");
+						_ERROR("Line ");
+						error_counter++;
+					}
 				}
 				/* invalid syntax */
 				else
@@ -227,8 +241,6 @@ int do_first_run(FILE * fd_input)
 			}
 			else /* label instruction case */
 			{
-				int instruction_words = 0;
-				
 				if((instruction_words = count_instruction_words(chunk_of_line)) < ZERO)
 				{
 					_ERROR(INVALID_INSTRUCTION);
@@ -256,31 +268,37 @@ int do_first_run(FILE * fd_input)
 				
 			}
 		}
-		else /* not a label - need to check if extern */
+		else if (is_extern(chunk_of_line)) /* not a label - need to check if extern */
 		{
-			if (is_extern(chunk_of_line))
-			{
-				/* next word is label name */
-				chunk_of_line = strtok(NULL, " ");
+			/* next word is label name */
+			chunk_of_line = strtok(NULL, " ");
 
-				if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
+			if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
+			{
+				if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
 				{
-					if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
-					{
-						_DEBUG("New external symbol registered");
-					}
-				}
-				else
-				{
-					_ERROR(ALREADY_INITIALIZED_LABEL);
-					_ERROR("File ");
-					_ERROR("Line ");
+					_DEBUG("New external symbol registered");
 				}
 			}
+			else
+			{
+				_ERROR(ALREADY_INITIALIZED_LABEL);
+				_ERROR("File ");
+				_ERROR("Line ");
+				error_counter++;
+			}
+		}
+		else if ((instruction_words = count_instruction_words(chunk_of_line)) >= ZERO)
+		{
+			IC += instruction_words;
+		}
+		else /* not a valid start of line */
+		{
+			_ERROR(LINE_NOT_UNDERSTANDABLE);
+			_ERROR("File ");
+			_ERROR("Line ");
+			error_counter++;
 		}
 	} /* end of while loop - line */
-	
-	_DEBUG("<<-- do_first_run");
-
 	return error_counter;
 }

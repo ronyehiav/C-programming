@@ -17,3 +17,4 @@
 #define INVALID_LABEL_NAME "Invalid label name"
 #define PRINT_INSTRUCTION_TABLE "Printing instruction table :"
 #define PRINT_CODE_IMAGE "Printing data table :"
+#define LINE_NOT_UNDERSTANDABLE "Unable to assemble this line"
