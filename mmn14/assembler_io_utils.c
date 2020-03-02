@@ -27,10 +27,6 @@ int is_entry(char str[])
 /* is_extern checks if the string given as parameter is from directive type external */
 int is_extern(char str[])
 {
-	_DEBUG(str);
-	_DEBUG(EXTERN_DIRECTIVE_TEXT);
-	printf("%d \n", strcmp(str, EXTERN_DIRECTIVE_TEXT));
-
 	if (strcmp(str, EXTERN_DIRECTIVE_TEXT))
 		return 0;
 	return 1;
@@ -184,10 +180,13 @@ int count_instruction_words(char str[])
 	/* catch the first word of the instruction */	
 	chunk_of_line = strtok(str, " ");
 
-	for(i = 0; i < NUM_OF_OPCODE && num_of_operand_expected == ZERO; i++)
+	for(i = 0; i < NUM_OF_OPCODE && num_of_operand_expected != ZERO; i++)
 	{
 		if (strcmp(opcodes_table[i].name, chunk_of_line) == ZERO)
+		{
 			num_of_operand_expected = opcodes_table[i].operand_number_required;
+			break;
+		}
 	}
 
 	return num_of_operand_expected;

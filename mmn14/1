@@ -1,1 +1,8 @@
 .extern eliott
+LABEL1: .data 1
+LABEL2: .string "a"
+OTHERLABEL: .entry OTHEROTHERLABEL
+LABEL3: .extern BLABLA
+LABEL4: add #1,r0
+LABEL5: .data +2 
+LABEL6: .data -2 

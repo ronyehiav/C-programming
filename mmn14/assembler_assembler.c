@@ -91,7 +91,7 @@ int do_first_run(FILE * fd_input)
 			chunk_of_line = strtok(NULL, " ");
 
 			/* label directive case */
-			if (is_directive(line))
+			if (is_directive(chunk_of_line))
 			{
 				/* data directive label case */
 				if (is_data(chunk_of_line))
@@ -160,17 +160,6 @@ int do_first_run(FILE * fd_input)
 								end_of_string = &chunk_of_line[i];
 						}
 						
-						/* invalid line - cant find a string between double quotes */
-						if ((!(start_of_string)) || (!(end_of_string))) 
-						{
-							_ERROR(CANT_FIND_STRING);
-							_ERROR("File " );
-							_ERROR("Line ");
-							error_counter++;
-							in_error = YES;
-							break;
-						}
-						
 						/* what comes after the last double quote will be ignored */
 						if ((start_of_string) && (end_of_string))
 						{
@@ -180,6 +169,15 @@ int do_first_run(FILE * fd_input)
 							break;
 						}	
 					}
+					/* invalid line - cant find a string between double quotes */
+					if ((!(start_of_string)) || (!(end_of_string))) 
+					{
+						_ERROR(CANT_FIND_STRING);
+						_ERROR("File " );
+						_ERROR("Line ");
+						error_counter++;
+						in_error = YES;
+					}
 
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
@@ -188,6 +186,7 @@ int do_first_run(FILE * fd_input)
 						{
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
 							{
+								DC += (end_of_string - start_of_string +1); /* +1 fpr the '\0' to be added */
 								_DEBUG("New data symbol registred");
 							}
 							else
@@ -230,10 +229,7 @@ int do_first_run(FILE * fd_input)
 			{
 				int instruction_words = 0;
 				
-				/* the rest of the line in chunk_of_line */
-				chunk_of_line = strtok(NULL, "\0");
-
-				if((instruction_words = count_instruction_words(chunk_of_line)) != ZERO)
+				if((instruction_words = count_instruction_words(chunk_of_line)) < ZERO)
 				{
 					_ERROR(INVALID_INSTRUCTION);
 					_ERROR("File " );
@@ -246,6 +242,7 @@ int do_first_run(FILE * fd_input)
 				{
 					if (add_to_symbol_table(label_name, IC, CODE, UNKNOWN) == ZERO)
 					{
+						IC += instruction_words;
 						_DEBUG("New data symbol registred");
 					}
 					else
@@ -267,8 +264,12 @@ int do_first_run(FILE * fd_input)
 				chunk_of_line = strtok(NULL, " ");
 
 				if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
-					add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL);
-
+				{
+					if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
+					{
+						_DEBUG("New external symbol registered");
+					}
+				}
 				else
 				{
 					_ERROR(ALREADY_INITIALIZED_LABEL);
