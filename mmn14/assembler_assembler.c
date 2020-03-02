@@ -161,7 +161,7 @@ int do_first_run(FILE * fd_input)
 						}
 						
 						/* what comes after the last double quote will be ignored */
-						if ((start_of_string) && (end_of_string))
+						else if ((start_of_string) && (end_of_string))
 						{
 							_WARNING(TEXT_AFTER_END_OF_STR_NOT_RELEVANT);
 							_WARNING("File ");

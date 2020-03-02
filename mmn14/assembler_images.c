@@ -9,10 +9,11 @@ int add_to_image(image_type type, int address, char * code)
 {
 	/* new image entry dynamic allocation */
 	image_entry * new_entry = (image_entry *)malloc(sizeof(image_entry));
+	char * new_code = (char *)malloc(sizeof(char) * CODE_SIZE);
 
 	_DEBUG("-->> add_to_image");
 
-	if (!new_entry)
+	if ((!new_entry) || (!new_code))
 	{
 		_ERROR(ALLOCATION_ERROR);
 		return -1;
@@ -77,7 +78,7 @@ void free_image(image_type type)
 	}
 	else /* (type == DATA_TABLE_TYPE) */
 	{
-		while(instruction_image)
+		while(data_image)
 		{
 			entry = data_image;
 			data_image = data_image->next;

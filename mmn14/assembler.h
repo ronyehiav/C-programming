@@ -12,6 +12,7 @@
 #define MAX_LINE_LENGTH 80
 #define MAX_ADDRESS_SIZE 10
 #define ZERO 0
+#define CODE_SIZE 2
 #define DATA_DIRECTIVE_TEXT ".data"
 #define STRING_DIRECTIVE_TEXT ".string"
 #define ENTRY_DIRECTIVE_TEXT ".entry"
