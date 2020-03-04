@@ -5,7 +5,7 @@ image_entry * instruction_image = NULL;
 image_entry * data_image = NULL;
 
 /* add entry an image - return 0 if succeeded     */
-int add_to_image(image_type type, int address, short int code)
+int add_to_image(image_type type,  int address, short int code) 
 {
 	/* new image entry dynamic allocation */
 	image_entry * new_entry = (image_entry *)malloc(sizeof(image_entry));

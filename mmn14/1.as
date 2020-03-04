@@ -8,8 +8,8 @@ DATA4: .data +2
 DATA5: .data -2 
 add #1,r0
 INSTRUCTION2: add #1,r0
-.data 1
-.string "a"
+.data 1,2
+.string "ab"
 .entry OTHEROTHERLABELSSSSS
 .extern BLABLASSSS
 DATA3: .data 1

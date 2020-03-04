@@ -113,23 +113,35 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
-						{
-							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
-								DC += number_of_elements;
-							else
+						/* the next number in chunk_of_line */
+						chunk_of_line = strtok(chunk_of_line, ",");
+
+						/* iterating over each data element and adding it to the data image */
+						for(i = 0; i < number_of_elements; i++)
+						{	
+							if (add_to_image(DATA_TABLE_TYPE, DC, atoi(chunk_of_line)) != ZERO)
 							{
 								sprintf(line_number_buffer, "%d", current_line_number);
-								_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
+								_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
 								error_counter++;
 							}
-						}
-						else
+
+							/* next element */
+							chunk_of_line = strtok(NULL, ","); 
+
+							/* enhance counter by 1 */
+							DC++;
+						}	
+
+						/* add the label to the symbol table with the right symbol address */
+						DC -= number_of_elements;
+						if (!(add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO))
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
-							_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
+							_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
 							error_counter++;
 						}
+						DC += number_of_elements;
 					}
 				}
 				/* string directive label case */
@@ -176,23 +188,44 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
-						{
-							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
-								DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
-							else
+						/* the string in chunk_of_line */
+						chunk_of_line = strtok(chunk_of_line, "\"");
+						chunk_of_line = strtok(chunk_of_line, "\"");
+
+						/* iterating over each data element and adding it to the data image */
+						for(i = 0; i < (end_of_string - start_of_string -1); i++) /* -1 for the  '"' */
+						{	
+							if (add_to_image(DATA_TABLE_TYPE, DC, chunk_of_line[i]) != ZERO)
 							{
 								sprintf(line_number_buffer, "%d", current_line_number);
-								_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
+								_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
 								error_counter++;
 							}
-						}
-						else
+							
+							/* enhance counter by 1 */
+							DC++;
+						}	
+
+						
+						if (add_to_image(DATA_TABLE_TYPE, DC, '\0') != ZERO) /* adding \0 to the end of the string */
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
-							_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
+							_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
 							error_counter++;
 						}
+						
+						/* enhance counter by 1 */
+						DC++;
+
+						/* add the label to the symbol table with the right symbol address */
+						DC -= (end_of_string - start_of_string +1 -2); 
+						if (!(add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO))
+						{
+							sprintf(line_number_buffer, "%d", current_line_number);
+							_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
+							error_counter++;
+						}
+						DC += (end_of_string - start_of_string +1 -2);;
 					}
 				}
 				/* entry directive label case - need to warn the user (in second run) about not taking the label into consideration */
@@ -279,16 +312,25 @@ int do_first_run(FILE * fd_input)
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
-					{
-						DC += number_of_elements;
-					}
-					else
-					{
-						sprintf(line_number_buffer, "%d", current_line_number);
-						_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
-						error_counter++;
-					}
+					/* the next number in chunk_of_line */
+					chunk_of_line = strtok(chunk_of_line, ",");
+
+					/* iterating over each data element and adding it to the data image */
+					for(i = 0; i < number_of_elements; i++)
+					{	
+						if (add_to_image(DATA_TABLE_TYPE, DC, atoi(chunk_of_line)) != ZERO)
+						{
+							sprintf(line_number_buffer, "%d", current_line_number);
+							_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
+							error_counter++;
+						}
+
+						/* next element */
+						chunk_of_line = strtok(NULL, ","); 
+
+						/* enhance counter by 1 */
+						DC++;
+					}	
 				}
 			}
 			/* string directive case */
@@ -335,16 +377,34 @@ int do_first_run(FILE * fd_input)
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
-					{
-						DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
-					}
-					else
+					/* the string in chunk_of_line */
+					chunk_of_line = strtok(chunk_of_line, "\"");
+					chunk_of_line = strtok(chunk_of_line, "\"");
+
+					/* iterating over each data element and adding it to the data image */
+					for(i = 0; i < (end_of_string - start_of_string -1); i++) /* -2 for the  '"' */
+					{	
+						if (add_to_image(DATA_TABLE_TYPE, DC, chunk_of_line[i]) != ZERO)
+						{
+							sprintf(line_number_buffer, "%d", current_line_number);
+							_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
+							error_counter++;
+						}
+						
+						/* enhance counter by 1 */
+						DC++;
+					}	
+
+					/* adding \0 to the end of the string */	
+					if (add_to_image(DATA_TABLE_TYPE, DC, '\0') != ZERO)
 					{
 						sprintf(line_number_buffer, "%d", current_line_number);
-						_ERROR(5, CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer );
+						_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
 						error_counter++;
 					}
+					
+					/* enhance counter by 1 */
+					DC++;
 				}
 			}
 			/* entry directive case - nothing to do for now */
