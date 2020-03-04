@@ -142,7 +142,7 @@ int do_first_run(FILE * fd_input)
 
 						/* add the label to the symbol table with the right symbol address */
 						DC -= number_of_elements;
-						if (!(add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO))
+						if (!(add_to_symbol_table(label_name, DC, DATA, UNKNOWN) == ZERO))
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
 							_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
@@ -226,7 +226,7 @@ int do_first_run(FILE * fd_input)
 
 						/* add the label to the symbol table with the right symbol address */
 						DC -= (end_of_string - start_of_string); 
-						if (!(add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO))
+						if (!(add_to_symbol_table(label_name, DC, DATA, UNKNOWN) == ZERO))
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
 							_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
@@ -453,5 +453,9 @@ int do_first_run(FILE * fd_input)
 			error_counter++;
 		}
 	} /* end of while loop - line */
+
+	/* enhance the data symbols by IC */
+	add_IC_to_data_symbol();
+
 	return error_counter;
 }

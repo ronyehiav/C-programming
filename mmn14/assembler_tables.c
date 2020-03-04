@@ -126,3 +126,18 @@ int is_an_operation_name(char str[])
 	}
 	return 0;
 }
+
+/* add_IC_to_data_symbol is the last step of the first run
+it consist by adding the counter IC to every data address stored in the symbol table
+*/
+void add_IC_to_data_symbol()
+{
+	symbol * sym = symbol_table;
+
+	while (sym != NULL) 
+	{
+		if (sym->type == DATA)
+			sym->value += IC;
+		sym = sym->next;
+	}
+}

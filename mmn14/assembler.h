@@ -83,6 +83,7 @@ int count_instruction_words(char []);
 void print_image(image_type);
 int is_blank(char []);
 int is_comment(char []);
+void add_IC_to_data_symbol();
 
 
 /* opcodes_table declaration */
