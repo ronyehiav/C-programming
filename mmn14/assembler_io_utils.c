@@ -191,3 +191,30 @@ int count_instruction_words(char str[])
 
 	return num_of_operand_expected;
 }
+
+/* is_blank checks if the string given as parameter is composed by whitespaces only */
+int is_blank(char str[])
+{
+	int i;
+
+	for(i = 0; i < strlen(str) ; i++)
+		if ((str[i] != ' ') && (str[i] != '\t') && (str[i] != '\n'))
+			return 0;
+	return 1;
+}
+
+/* is_comment checks if the string given as parameter starts by a ';' */
+int is_comment(char str[])
+{
+	int i;
+
+	for(i = 0; i < strlen(str) ; i++) 
+		if ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\n'))
+			; /* do nothing */
+		else if (str[i] == ';')
+			return 1;
+		else
+			return 0;
+	return 0;
+}
+

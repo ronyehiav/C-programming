@@ -81,6 +81,8 @@ int validate_list_of_elements(char []);
 void remove_spaces(char *);
 int count_instruction_words(char []);
 void print_image(image_type);
+int is_blank(char []);
+int is_comment(char []);
 
 
 /* opcodes_table declaration */

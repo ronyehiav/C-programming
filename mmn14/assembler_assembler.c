@@ -69,8 +69,15 @@ int do_first_run(FILE * fd_input)
 		/* the first word of the line in chunk_of_line */
 		chunk_of_line = strtok(line, " ");
 
+
+
+
+		/* check if comment or blank line */
+		if ((is_blank(chunk_of_line)) || is_comment(chunk_of_line))
+			; /* do nothing */
+
 		/* label case */
-		if (is_label(chunk_of_line)) /* in this case, chunk_of_line is the first word */
+		else if (is_label(chunk_of_line)) /* in this case, chunk_of_line is the first word */
 		{
 			char * label_name;
 			
@@ -218,14 +225,14 @@ int do_first_run(FILE * fd_input)
 						DC++;
 
 						/* add the label to the symbol table with the right symbol address */
-						DC -= (end_of_string - start_of_string +1 -2); 
+						DC -= (end_of_string - start_of_string); 
 						if (!(add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO))
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
 							_ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
 							error_counter++;
 						}
-						DC += (end_of_string - start_of_string +1 -2);;
+						DC += (end_of_string - start_of_string);
 					}
 				}
 				/* entry directive label case - need to warn the user (in second run) about not taking the label into consideration */

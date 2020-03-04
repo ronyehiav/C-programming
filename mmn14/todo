@@ -1,7 +1,3 @@
-store data!!!
-	add_data(char * str, data)
-	add_data(char * str, string)
-ignore comment line and white lines 
 stablilize code
 disaster testing
 add to data entries in symtable +IC	
