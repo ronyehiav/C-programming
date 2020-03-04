@@ -22,6 +22,7 @@ void do_assembler(FILE * fd_input)
 	error_counter += do_first_run(fd_input);
 
 	print_symbol_table();
+	print_image(DATA_TABLE_TYPE);
 
 	/* print into files */
 	

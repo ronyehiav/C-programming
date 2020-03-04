@@ -1,4 +1,3 @@
-change images to use 1 short instead of array
 store data!!!
 	add_data(char * str, data)
 	add_data(char * str, string)

@@ -102,5 +102,6 @@ void print_image(image_type type)
 		sprintf(buffer2, "%d", entry->code);
 		_DEBUG(2, buffer1, buffer2);
 		_DEBUG(1, LINE);
+		entry = entry->next;
 	}
 }
