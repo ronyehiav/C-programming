@@ -5,13 +5,12 @@ image_entry * instruction_image = NULL;
 image_entry * data_image = NULL;
 
 /* add entry an image - return 0 if succeeded     */
-int add_to_image(image_type type, int address, char * code)
+int add_to_image(image_type type, int address, short int code)
 {
 	/* new image entry dynamic allocation */
 	image_entry * new_entry = (image_entry *)malloc(sizeof(image_entry));
-	char * new_code = (char *)malloc(sizeof(char) * CODE_SIZE);
 
-	if ((!new_entry) || (!new_code))
+	if ((!new_entry))
 	{
 		_ERROR(1, ALLOCATION_ERROR);
 		return -1;
@@ -19,7 +18,7 @@ int add_to_image(image_type type, int address, char * code)
 
 	/* initialization of the new_entry */
 	new_entry->address = address;
-	new_entry->code = new_code;
+	new_entry->code = code;
 	new_entry->next = NULL;
 	
 	
@@ -63,7 +62,6 @@ void free_image(image_type type)
 		{
 			entry = instruction_image;
 			instruction_image = instruction_image->next;
-			free(entry->code);
 			free(entry);
 		}
 	}
@@ -73,7 +71,6 @@ void free_image(image_type type)
 		{
 			entry = data_image;
 			data_image = data_image->next;
-			free(entry->code);
 			free(entry);
 		}
 	}
@@ -83,7 +80,8 @@ void free_image(image_type type)
 void print_image(image_type type)
 {
         image_entry * entry;
-        char buffer[MAX_ADDRESS_SIZE]; 
+        char buffer1[MAX_ADDRESS_SIZE]; 
+	char buffer2[MAX_DATA_SIZE];
 
 	if (type == INSTRUCTION_TABLE_TYPE)
 	{
@@ -100,8 +98,9 @@ void print_image(image_type type)
 	
 	while (entry != NULL)
 	{
-		sprintf(buffer, "%d", entry->address);
-		_DEBUG(2, buffer, entry->code);
+		sprintf(buffer1, "%d", entry->address);
+		sprintf(buffer2, "%d", entry->code);
+		_DEBUG(2, buffer1, buffer2);
 		_DEBUG(1, LINE);
 	}
 }

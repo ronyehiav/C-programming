@@ -12,6 +12,7 @@
 #define MAX_SYMBOL_LENGTH 31
 #define MAX_LINE_LENGTH 80
 #define MAX_ADDRESS_SIZE 10
+#define MAX_DATA_SIZE 13
 #define IN_FILE_SUFFIX_SIZE 3
 #define IN_FILE_SUFFIX ".as"
 #define LINE_NUM_BUF_SIZE 6
@@ -49,7 +50,7 @@ typedef struct symbol {
 typedef struct image_entry
 {
 	int address;
-	char * code;
+	short int code;
 	struct image_entry * next;
 	} image_entry;
 
@@ -63,7 +64,7 @@ int add_to_symbol_table(char *, int, symbol_type, symbol_location);
 void print_symbol_table();
 void free_symbol_table();
 void do_assembler(FILE *);
-int add_to_image(image_type, int, char *);
+int add_to_image(image_type, int, short int);
 void free_image(image_type);
 int do_first_run(FILE *);
 int is_data(char []);

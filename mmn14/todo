@@ -1,6 +1,8 @@
-is_directive in first run
+change images to use 1 short instead of array
 store data!!!
+	add_data(char * str, data)
+	add_data(char * str, string)
+ignore comment line and white lines 
 stablilize code
 disaster testing
-ignore comment line and white lines 
-	
+add to data entries in symtable +IC	

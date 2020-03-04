@@ -112,13 +112,10 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 						{
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
-							{
-								_DEBUG(2, "New data symbol registred", label_name);
 								DC += number_of_elements;
-							}
 							else
 							{
 								sprintf(line_number_buffer, "%d", current_line_number);
@@ -178,13 +175,10 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+						if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 						{
 							if (add_to_symbol_table(label_name, DC, NONE, UNKNOWN) == ZERO)
-							{
 								DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
-								_DEBUG(2, "New data symbol registred", label_name);
-							}
 							else
 							{
 								sprintf(line_number_buffer, "%d", current_line_number);
@@ -213,11 +207,13 @@ int do_first_run(FILE * fd_input)
 
 					if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
 					{
-						if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
+						if (!(add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO))
 						{
-							_DEBUG(2, "New external symbol registered", chunk_of_line);
+							sprintf(line_number_buffer, "%d", current_line_number);
+							 _ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
+							error_counter++;
 						}
-					}
+					}	
 					else
 					{
 						sprintf(line_number_buffer, "%d", current_line_number);
@@ -248,7 +244,6 @@ int do_first_run(FILE * fd_input)
 					if (add_to_symbol_table(label_name, IC, CODE, UNKNOWN) == ZERO)
 					{
 						IC += instruction_words;
-						_DEBUG(2, "New data symbol registred", label_name);
 					}
 					else
 					{
@@ -260,26 +255,7 @@ int do_first_run(FILE * fd_input)
 				
 			}
 		}
-		else if (is_extern(chunk_of_line)) /* not a label - need to check if extern */
-		{
-			/* next word is label name */
-			chunk_of_line = strtok(NULL, " ");
-
-			if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
-			{
-				if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
-				{
-					_DEBUG(2, "New external symbol registered", chunk_of_line);
-				}
-			}
-			else
-			{
-				sprintf(line_number_buffer, "%d", current_line_number);
-				 _ERROR(5, ALREADY_INITIALIZED_LABEL, "-", current_filename, ":", line_number_buffer );
-				error_counter++;
-			}
-		}
-		else if(is_directive(chunk_of_line))
+		else if(is_directive(chunk_of_line)) /* not a label - directive only case */
 		{
 			/* data directive case */
 			if (is_data(chunk_of_line))
@@ -302,7 +278,7 @@ int do_first_run(FILE * fd_input)
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+					if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 					{
 						DC += number_of_elements;
 					}
@@ -358,7 +334,7 @@ int do_first_run(FILE * fd_input)
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					if (add_to_image(DATA_TABLE_TYPE, DC, "code") == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
+					if (add_to_image(DATA_TABLE_TYPE, DC, 999) == ZERO) /* NEED TO ADD SUPPORT FOR MULTIPLE DATA'S */
 					{
 						DC += (end_of_string - start_of_string +1 -2); /* +1 for the '\0' to be added AND -2 for the the 2 '"'*/
 					}
@@ -383,9 +359,11 @@ int do_first_run(FILE * fd_input)
 
 				if ((!(is_a_symbol(chunk_of_line))) && (is_valid_label(chunk_of_line)))
 				{
-					if (add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO)
+					if (!(add_to_symbol_table(chunk_of_line, ZERO, NONE, EXTERNAL) == ZERO))
 					{
-						_DEBUG(2, "New external symbol registered", chunk_of_line);
+						sprintf(line_number_buffer, "%d", current_line_number);
+						 _ERROR(5, CANT_ADD_TO_SYMTABLE, "-", current_filename, ":", line_number_buffer );
+						error_counter++;
 					}
 				}
 				else
@@ -395,14 +373,6 @@ int do_first_run(FILE * fd_input)
 					error_counter++;
 				}
 			}
-
-
-
-
-
-
-
-
 		}
 		else if ((instruction_words = count_instruction_words(chunk_of_line)) >= ZERO) /* instruction - just add the number of words to keep in memory */
 		{

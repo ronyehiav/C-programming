@@ -11,7 +11,6 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-
 	/* iterate over every argument */
 	for (file_index = 1; file_index < argc; file_index++)
 	{
