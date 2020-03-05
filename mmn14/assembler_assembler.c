@@ -196,14 +196,16 @@ int do_first_run(FILE * fd_input)
 					/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 					if(in_error == NO)
 					{
-						/* the string in chunk_of_line */
-						chunk_of_line = strtok(chunk_of_line, "\"");
-						chunk_of_line = strtok(chunk_of_line, "\"");
+						char * string;
+
+						/* the string + final '"' is kept in string */
+						string = start_of_string +1;
+						string = strtok(string, "\"");
 
 						/* iterating over each data element and adding it to the data image */
 						for(i = 0; i < (end_of_string - start_of_string -1); i++) /* -1 for the  '"' */
 						{	
-							if (add_to_image(DATA_TABLE_TYPE, DC, chunk_of_line[i]) != ZERO)
+							if (add_to_image(DATA_TABLE_TYPE, DC, string[i]) != ZERO)
 							{
 								sprintf(line_number_buffer, "%d", current_line_number);
 								_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
