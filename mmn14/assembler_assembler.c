@@ -15,7 +15,7 @@ void do_assembler(FILE * fd_input)
 	symbol_table = NULL;
 
 	/* counters (re)initialization */
-	IC = 100; /* instruction counter */
+	IC = START_IC_VALUE; /* instruction counter */
 	DC = 0; /* data counter */
 
 	/* do run 1 run 2 */
@@ -53,6 +53,7 @@ int do_first_run(FILE * fd_input)
 		line_ptr = remove_leading_spaces(line);
 
 		/* remove last character if it is new line */
+		i = ZERO;
 		while(line[i] != '\0')
 		{
 			if (line[i] == '\n')
@@ -69,7 +70,7 @@ int do_first_run(FILE * fd_input)
 		current_line_number++;
 
 		/* the first word of the line in chunk_of_line */
-		chunk_of_line = strtok(line_ptr, " ");
+		chunk_of_line = strtok(line_ptr, " " "\t");
 
 
 		/* check if comment or blank line */
@@ -96,7 +97,7 @@ int do_first_run(FILE * fd_input)
 			/* the second word of the line in chunk_of_line */
 			chunk_of_line = strtok(NULL, "\0");
 			chunk_of_line = remove_leading_spaces(chunk_of_line);
-			chunk_of_line = strtok(chunk_of_line, " ");
+			chunk_of_line = strtok(chunk_of_line, " " "\t");
 
 			/* label directive case */
 			if (is_directive(chunk_of_line))

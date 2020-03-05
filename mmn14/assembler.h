@@ -17,6 +17,7 @@
 #define IN_FILE_SUFFIX ".as"
 #define LINE_NUM_BUF_SIZE 6
 #define ZERO 0
+#define START_IC_VALUE 100
 #define CODE_SIZE 2
 #define DATA_DIRECTIVE_TEXT ".data"
 #define STRING_DIRECTIVE_TEXT ".string"
