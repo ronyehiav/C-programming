@@ -84,6 +84,7 @@ void print_image(image_type);
 int is_blank(char []);
 int is_comment(char []);
 void add_IC_to_data_symbol();
+char * remove_leading_spaces(char *);
 
 
 /* opcodes_table declaration */

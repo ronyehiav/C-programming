@@ -197,6 +197,9 @@ int is_blank(char str[])
 {
 	int i;
 
+	if (str == NULL)
+		return 1;
+
 	for(i = 0; i < strlen(str) ; i++)
 		if ((str[i] != ' ') && (str[i] != '\t') && (str[i] != '\n'))
 			return 0;
@@ -218,3 +221,10 @@ int is_comment(char str[])
 	return 0;
 }
 
+/* remove the first spaces from a given string */
+char * remove_leading_spaces(char * str)
+{
+	while(isspace(* str))
+		str++;
+	return str;
+}

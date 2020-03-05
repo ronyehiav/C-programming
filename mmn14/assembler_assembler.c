@@ -44,11 +44,14 @@ int do_first_run(FILE * fd_input)
 	int instruction_words = 0;
 	int current_line_number = 0;
 	char line[MAX_LINE_LENGTH];
-	char * chunk_of_line;
+	char * chunk_of_line, * line_ptr;
 
 	/* read the file line by line entil EOF */
 	while(fgets(line, MAX_LINE_LENGTH, fd_input))
 	{
+		/* remove the first spaces of the line */
+		line_ptr = remove_leading_spaces(line);
+
 		/* remove last character if it is new line */
 		while(line[i] != '\0')
 		{
@@ -59,7 +62,6 @@ int do_first_run(FILE * fd_input)
 			}
 			i++;
 		}
- 
 		/* in_error allow us to know if doing anything with line or not */
 		in_error = NO;
 		
@@ -67,9 +69,7 @@ int do_first_run(FILE * fd_input)
 		current_line_number++;
 
 		/* the first word of the line in chunk_of_line */
-		chunk_of_line = strtok(line, " ");
-
-
+		chunk_of_line = strtok(line_ptr, " ");
 
 
 		/* check if comment or blank line */
@@ -94,8 +94,9 @@ int do_first_run(FILE * fd_input)
 			label_name = chunk_of_line;
 
 			/* the second word of the line in chunk_of_line */
-			chunk_of_line = strtok(NULL, " ");
-			remove_spaces(chunk_of_line);
+			chunk_of_line = strtok(NULL, "\0");
+			chunk_of_line = remove_leading_spaces(chunk_of_line);
+			chunk_of_line = strtok(chunk_of_line, " ");
 
 			/* label directive case */
 			if (is_directive(chunk_of_line))
@@ -387,14 +388,16 @@ int do_first_run(FILE * fd_input)
 				/* checking if error encountered - if yes, no need to move forward with symbol table and image table additions */
 				if(in_error == NO)
 				{
-					/* the string in chunk_of_line */
-					chunk_of_line = strtok(chunk_of_line, "\"");
-					chunk_of_line = strtok(chunk_of_line, "\"");
+					char * string;
+
+					/* the string + final '"' is kept in string */
+					string = start_of_string +1;
+					string = strtok(string, "\"");
 
 					/* iterating over each data element and adding it to the data image */
-					for(i = 0; i < (end_of_string - start_of_string -1); i++) /* -2 for the  '"' */
+					for(i = 0; i < (end_of_string - start_of_string -1); i++) /* -1 for the  '"' */
 					{	
-						if (add_to_image(DATA_TABLE_TYPE, DC, chunk_of_line[i]) != ZERO)
+						if (add_to_image(DATA_TABLE_TYPE, DC, string[i]) != ZERO)
 						{
 							sprintf(line_number_buffer, "%d", current_line_number);
 							_ERROR(5 , CANT_ADD_TO_DATA_IMAGE, "-", current_filename, ":", line_number_buffer ); 
