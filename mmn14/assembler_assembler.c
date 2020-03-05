@@ -95,6 +95,7 @@ int do_first_run(FILE * fd_input)
 
 			/* the second word of the line in chunk_of_line */
 			chunk_of_line = strtok(NULL, " ");
+			remove_spaces(chunk_of_line);
 
 			/* label directive case */
 			if (is_directive(chunk_of_line))
