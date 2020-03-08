@@ -38,7 +38,7 @@ typedef struct opcode {
 	int operand_number_required;
 	} opcode;
 
-/* symbot struct definition */
+/* symbol struct definition */
 typedef struct symbol {
 	char * name;
 	int value;
